@@ -7,6 +7,8 @@ public abstract class Selectable : MonoBehaviour {
     protected Collider2D myCollider;
     protected bool isSelected;
     protected SpriteRenderer myRenderer;
+    protected GameController gameController;
+    protected Sprite[] sprites;
 
     // Use this for initialization
     void Start()
@@ -14,6 +16,7 @@ public abstract class Selectable : MonoBehaviour {
         myCollider = GetComponent<Collider2D>();
         isSelected = false;
         myRenderer = GetComponent<SpriteRenderer>();
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     // Update is called once per frame
@@ -22,13 +25,13 @@ public abstract class Selectable : MonoBehaviour {
 
     }
 
-    protected void becomeSelected(Sprite[] sprites)
+    protected void becomeSelected()
     {
         isSelected = true;
         myRenderer.sprite = sprites[1];
     }
 
-    protected void becomeUnselected(Sprite[] sprites)
+    public void BecomeUnselected()
     {
         isSelected = false;
         myRenderer.sprite = sprites[0];
