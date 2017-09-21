@@ -11,7 +11,7 @@ public class PersonGenerator : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-
+        //TODO Load up all the names from a txt file or maybe a CSV file
     }
 
     public void Activate()
@@ -21,6 +21,7 @@ public class PersonGenerator : MonoBehaviour {
         {
             Vector3 newPosition = new Vector3(i, -1, 0);
             GameObject newPerson = Instantiate(person, newPosition, Quaternion.identity);
+            newPerson.name = "PLACEHOLDER_NAME"; //TODO
             gameController.AddPersonToList(newPerson);
         }
     }

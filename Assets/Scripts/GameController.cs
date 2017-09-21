@@ -50,36 +50,45 @@ public class GameController : MonoBehaviour {
             currentlySelected = newSelected;
             return;
         }
+        if (currentlySelected == newSelected)
+        {
+            return;
+        }
 
+        /*
         System.Type newSelType = newSelected.GetType();
         System.Type currSelType = currentlySelected.GetType();
 
         if (newSelType == typeof(Person))
         {
             currentlySelected.BecomeDeselected();
-            currentlySelected = newSelected;
         }
         else if(newSelType == typeof(Lineup))
         {
             if (currSelType == typeof(Person))
             {
+                currentlySelected.BecomeDeselected();
                 assignPersonToLineup(currentlySelected as Person, newSelected as Lineup);
             }
             else if (currSelType == typeof(Lineup))
             {
                 currentlySelected.BecomeDeselected();
-                currentlySelected = newSelected;
             }
+        }*/
+        if (newSelected.GetType() == typeof(Lineup) && currentlySelected.GetType() == typeof(Person))
+        {
+            assignPersonToLineup(currentlySelected as Person, newSelected as Lineup);
         }
 
-        
-
-
+        currentlySelected.BecomeDeselected();
+        currentlySelected = newSelected;
     }
 
     private void assignPersonToLineup(Person person, Lineup lineup)
     {
-        Debug.Log("Assigning Person to Line!");
+        string name = person.Name;
+        string rule = lineup.Rule;
+        Debug.Log("Assigning " + name + " to " + rule);
     }
 
     public void TestPublic()
