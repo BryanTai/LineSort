@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour {
      * 
      * TODO i have a feeling this is going to scale really bad when I add more stuff
     **/
-    /*public void UpdateCurrentlySelected(Selectable newSelected)
+    public void UpdateCurrentlySelected(Selectable newSelected)
     {
         if (currentlySelected == null)
         {
@@ -56,30 +56,31 @@ public class GameController : MonoBehaviour {
 
         if (newSelType == typeof(Person))
         {
-            if (currSelType == typeof(Person))
-            {
-                currentlySelected.BecomeDeselected();
-            }else if (currSelType == typeof(Lineup))
-            {
-
-            }
+            currentlySelected.BecomeDeselected();
+            currentlySelected = newSelected;
         }
         else if(newSelType == typeof(Lineup))
         {
             if (currSelType == typeof(Person))
             {
-
+                assignPersonToLineup(currentlySelected as Person, newSelected as Lineup);
             }
             else if (currSelType == typeof(Lineup))
             {
-
+                currentlySelected.BecomeDeselected();
+                currentlySelected = newSelected;
             }
         }
 
         
 
 
-    }*/
+    }
+
+    private void assignPersonToLineup(Person person, Lineup lineup)
+    {
+        Debug.Log("Assigning Person to Line!");
+    }
 
     public void TestPublic()
     {

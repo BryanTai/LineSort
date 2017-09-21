@@ -31,7 +31,7 @@ public abstract class Selectable : MonoBehaviour {
         myRenderer.sprite = sprites[1];
     }
 
-    public void BecomeUnselected()
+    public void BecomeDeselected()
     {
         isSelected = false;
         myRenderer.sprite = sprites[0];
