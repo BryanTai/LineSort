@@ -7,13 +7,13 @@ public class GameController : MonoBehaviour {
     Selectable currentlySelected;
     
 
-    public List<GameObject> AllSelectableObjects; //TODO split into list of persons and lineups?
+    public List<Person> PersonWaitList; //TODO split into list of persons and lineups?
     public PersonGenerator personGenerator;
 
 	// Use this for initialization
 	void Start () {
         Debug.Log(gameObject.tag);
-        AllSelectableObjects = new List<GameObject>();
+        PersonWaitList = new List<Person>();
         personGenerator.Activate();
 	}
 	
@@ -22,10 +22,10 @@ public class GameController : MonoBehaviour {
 		
 	}
 
-    public void AddPersonToList(GameObject newPerson)
+    public void AddPersonToWaitList(Person newPerson)
     {
         //TODO Might need a lock on this later
-        AllSelectableObjects.Add(newPerson);
+        PersonWaitList.Add(newPerson);
     }
 
     //Selecting logic
