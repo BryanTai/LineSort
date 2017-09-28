@@ -18,6 +18,12 @@ public class PersonGenerator : MonoBehaviour {
     const int ALL_NAMES_AMOUNT = 3;
     System.Random rnd;
 
+    //New Person positioning
+    int minX = -5;
+    int maxX = 5;
+    int minY = -4;
+    int maxY = 0;
+
 	// Use this for initialization
 	void Start () {
         rnd = new System.Random();
@@ -30,19 +36,26 @@ public class PersonGenerator : MonoBehaviour {
         //TODO For now, just initializes two Persons
         for (int i = 0; i < MAX_PERSONS; i++)
         {
-            Vector3 newPosition = new Vector3(i, -1, 0);
-            GameObject newPersonGameObject = Instantiate(person, newPosition, Quaternion.identity);
-            Person newPerson = newPersonGameObject.GetComponent<Person>();
-
-            int randomIndex = rnd.Next(ALL_NAMES_AMOUNT);
-
-            string newName = allNames[randomIndex];//"PLACEHOLDER_NAME_" + i;
-            Debug.Log("New Person: " + newName);
-            newPersonGameObject.name = newName;
-            newPerson.SetName(newName);
-
-            gameController.AddPersonToWaitList(newPerson); 
+            int nextX = rnd.Next(minX, maxX + 1);
+            int nextY = rnd.Next(minY, maxY + 1);
+            createPersonAtLocation(nextX, nextY);
         }
+    }
+
+    private void createPersonAtLocation(int x, int y)
+    {
+        Vector3 newPosition = new Vector3(x, y, 0);
+        GameObject newPersonGameObject = Instantiate(person, newPosition, Quaternion.identity);
+        Person newPerson = newPersonGameObject.GetComponent<Person>();
+
+        int randomIndex = rnd.Next(ALL_NAMES_AMOUNT);
+
+        string newName = allNames[randomIndex];
+        Debug.Log("New Person: " + newName);
+        newPersonGameObject.name = newName;
+        newPerson.SetName(newName);
+
+        gameController.AddPersonToWaitList(newPerson);
     }
 
     //TODO let's start with a small text file with only 3 names

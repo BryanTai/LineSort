@@ -169,7 +169,7 @@ Prefab:
     - target: {fileID: 224622965419536026, guid: 0e4ed2005218c6d42849731c0ddbc033,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 3.56
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 224622965419536026, guid: 0e4ed2005218c6d42849731c0ddbc033,
         type: 2}
@@ -255,6 +255,10 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.y
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872650833367636, guid: 0e4ed2005218c6d42849731c0ddbc033, type: 2}
+      propertyPath: m_Name
+      value: TestPerson
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e4ed2005218c6d42849731c0ddbc033, type: 2}

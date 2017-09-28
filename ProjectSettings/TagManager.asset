@@ -14,9 +14,9 @@ TagManager:
   - UI
   - 
   - 
+  - 
+  - Names
   - People
-  - 
-  - 
   - 
   - 
   - 
@@ -47,4 +47,7 @@ TagManager:
     locked: 0
   - name: People
     uniqueID: 930822919
+    locked: 0
+  - name: Names
+    uniqueID: 4190126517
     locked: 0
