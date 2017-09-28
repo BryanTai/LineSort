@@ -39,7 +39,7 @@ public class PersonGenerator : MonoBehaviour {
             string newName = allNames[randomIndex];//"PLACEHOLDER_NAME_" + i;
             Debug.Log("New Person: " + newName);
             newPersonGameObject.name = newName;
-            newPerson.Name = newName;
+            newPerson.SetName(newName);
 
             gameController.AddPersonToWaitList(newPerson); 
         }

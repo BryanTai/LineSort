@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class Person : Selectable {
 
-    public string Name { get; set; }
+    public string Name { get; private set; }
+    private TextMesh textMesh;
 
     void Awake()
     {
         sprites = Resources.LoadAll<Sprite>("person_sheet");
+        Transform childText = this.gameObject.transform.GetChild(0);
+        textMesh = childText.GetComponent<TextMesh>();
+        
     }
 
     void OnMouseDown()
     {
-        Debug.Log("Clicked Person!");
         becomeSelected();
+    }
+
+    public void SetName(string name)
+    {
+        this.Name = name;
+        textMesh.text = this.Name;
     }
 }

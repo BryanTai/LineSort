@@ -13,7 +13,6 @@ public class Lineup : Selectable {
 
     void OnMouseDown()
     {
-        Debug.Log("Clicked Lineup!");
         becomeSelected();
     }
 }

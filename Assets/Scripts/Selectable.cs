@@ -19,12 +19,6 @@ public abstract class Selectable : MonoBehaviour {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     protected void becomeSelected()
     {
         isSelected = true;
