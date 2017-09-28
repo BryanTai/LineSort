@@ -26,7 +26,7 @@ public abstract class Selectable : MonoBehaviour {
         gameController.UpdateCurrentlySelected(this);
     }
 
-    public void BecomeDeselected()
+    public virtual void BecomeDeselected()
     {
         isSelected = false;
         myRenderer.sprite = sprites[0];
