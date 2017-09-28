@@ -9,6 +9,10 @@ public class Person : Selectable {
     private MeshRenderer textRenderer;
     private TextMesh textMesh;
 
+    private bool isWalking;
+    private float destinationX;
+    private float destinationY;
+
     void Awake()
     {
         sprites = Resources.LoadAll<Sprite>("person_sheet");
@@ -21,6 +25,15 @@ public class Person : Selectable {
 
         textRenderer.sortingLayerName = "Names";
         textRenderer.sortingOrder = 1;
+        isWalking = false;
+    }
+
+    void Update()
+    {
+        if (isWalking)
+        {
+
+        }
     }
 
     void OnMouseDown()
@@ -41,5 +54,12 @@ public class Person : Selectable {
         base.BecomeDeselected();
         textRenderer.enabled = false;
         personRenderer.sortingOrder = 0;
+    }
+
+    public void WalkToLine(float x, float y)
+    {
+        isWalking = true;
+        destinationX = x;
+        destinationX = y;
     }
 }
