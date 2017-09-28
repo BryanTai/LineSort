@@ -15,11 +15,12 @@ public class PersonGenerator : MonoBehaviour {
     //Name fields
     public TextAsset namesText;
     private string[] allNames;
-    const int ALL_NAMES_AMOUNT = 3; 
+    const int ALL_NAMES_AMOUNT = 3;
+    System.Random rnd;
 
 	// Use this for initialization
 	void Start () {
-        //TODO Load up all the names from a txt file or maybe a CSV file
+        rnd = new System.Random();
     }
 
     public void Activate()
@@ -32,8 +33,12 @@ public class PersonGenerator : MonoBehaviour {
             Vector3 newPosition = new Vector3(i, -1, 0);
             GameObject newPersonGameObject = Instantiate(person, newPosition, Quaternion.identity);
             Person newPerson = newPersonGameObject.GetComponent<Person>();
-            string newName = "PLACEHOLDER_NAME_" + i;
-            newPersonGameObject.name = newName; //TODO this is just for debugging purposes
+
+            int randomIndex = rnd.Next(ALL_NAMES_AMOUNT);
+
+            string newName = allNames[randomIndex];//"PLACEHOLDER_NAME_" + i;
+            Debug.Log("New Person: " + newName);
+            newPersonGameObject.name = newName;
             newPerson.Name = newName;
 
             gameController.AddPersonToWaitList(newPerson); 
@@ -44,13 +49,15 @@ public class PersonGenerator : MonoBehaviour {
     private void loadAllNamesFromTextFile()
     {
         allNames = new string[ALL_NAMES_AMOUNT];
-        string path = "Assets/Resources/names.txt";
+        string path = "Assets/Resources/names.txt"; //TODO Will probably be passing in the path or some other parameter as game grows
         //TODO
         //use names from https://stackoverflow.com/questions/1803628/raw-list-of-person-names
         int i = 0;
         foreach (string line in File.ReadAllLines(path, Encoding.UTF8)) {
             allNames[i] = line;
-            Debug.Log(allNames[i]); //TODO REMOVE THIS WHEN WE USE MORE NAMES
+
+            //TODO REMOVE THIS WHEN WE USE MORE NAMES OR CONSOLE IS GONNA FLOOD
+            //Debug.Log(allNames[i]); 
 
             i++;
         }
