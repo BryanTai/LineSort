@@ -92,8 +92,10 @@ public class GameController : MonoBehaviour {
 
         float x = lineup.GetXPosition();
         float y = lineup.GetLastSpot();
+        Debug.Log("X = " + x);
+        Debug.Log("Y = " + y);
 
-        person.WalkToLine(x, y);
+        person.WalkToPoint(x, y);
     }
 
     public void TestPublic()

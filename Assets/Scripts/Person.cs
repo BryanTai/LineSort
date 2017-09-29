@@ -9,9 +9,11 @@ public class Person : Selectable {
     private MeshRenderer textRenderer;
     private TextMesh textMesh;
 
+    private Rigidbody2D personRigidBody;
     private bool isWalking;
     private float destinationX;
     private float destinationY;
+    private float walkSpeed;
 
     void Awake()
     {
@@ -26,18 +28,24 @@ public class Person : Selectable {
         textRenderer.sortingLayerName = "Names";
         textRenderer.sortingOrder = 1;
         isWalking = false;
+        walkSpeed = 1.0f; //TODO Adjust this
+
+        personRigidBody = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
         if (isWalking)
         {
-
+            Vector2 destination = new Vector2(destinationX, destinationY);
+            personRigidBody.MovePosition(destination);
+            isWalking = false;
         }
     }
 
     void OnMouseDown()
     {
+        Debug.Log("Clicked Person: " + Name);
         becomeSelected();
         textRenderer.enabled = true;
         personRenderer.sortingOrder = 2; //Move it to the front
@@ -56,10 +64,10 @@ public class Person : Selectable {
         personRenderer.sortingOrder = 0;
     }
 
-    public void WalkToLine(float x, float y)
+    public void WalkToPoint(float x, float y)
     {
         isWalking = true;
         destinationX = x;
-        destinationX = y;
+        destinationY = y;
     }
 }

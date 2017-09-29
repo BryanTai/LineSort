@@ -12,10 +12,14 @@ public class Lineup : Selectable {
     {
         sprites = Resources.LoadAll<Sprite>("lineup_sheet");
         queuedPersons = new Queue<Person>();
+
+        //TODO for testing
+        Rule = "PLACEHOLDER_RULE";
     }
 
     void OnMouseDown()
     {
+        Debug.Log("Clicked Line: " + Rule);
         becomeSelected();
     }
 
