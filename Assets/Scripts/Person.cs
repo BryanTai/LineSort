@@ -37,6 +37,7 @@ public class Person : Selectable {
     {
         if (isWalking)
         {
+            //TODO currently this just teleports, make it move smoothly
             Vector2 destination = new Vector2(destinationX, destinationY);
             personRigidBody.MovePosition(destination);
             isWalking = false;
@@ -64,10 +65,16 @@ public class Person : Selectable {
         personRenderer.sortingOrder = 0;
     }
 
-    public void WalkToPoint(float x, float y)
+    public void WalkToPoint(Vector2 point)
     {
         isWalking = true;
-        destinationX = x;
-        destinationY = y;
+        destinationX = point.x;
+        destinationY = point.y;
+    }
+
+    public void TeleportToPoint(Vector2 point)
+    {
+        isWalking = false;
+        personRigidBody.MovePosition(point);
     }
 }

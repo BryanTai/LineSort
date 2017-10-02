@@ -4,22 +4,33 @@ using UnityEngine;
 
 public class Lineup : Selectable {
 
-    public string Rule { get; set; }
+    public string RuleText { get; set; } //TODO just a placeholder
     public int MaxPersons { get; set; }
     private Queue<Person> queuedPersons;
+
+    private TextMesh textMesh;
 
     void Awake()
     {
         sprites = Resources.LoadAll<Sprite>("lineup_sheet");
         queuedPersons = new Queue<Person>();
 
+        Transform childText = gameObject.transform.GetChild(0);
+        textMesh = childText.GetComponent<TextMesh>();
+
         //TODO for testing
-        Rule = "PLACEHOLDER_RULE";
+        RuleText = "PLACEHOLDER_RULE";
+        textMesh.text = RuleText;
+    }
+
+    void Update()
+    {
+
     }
 
     void OnMouseDown()
     {
-        Debug.Log("Clicked Line: " + Rule);
+        Debug.Log("Clicked Line: " + RuleText);
         becomeSelected();
     }
 
@@ -33,4 +44,12 @@ public class Lineup : Selectable {
     {
         return transform.position.y; //TODO for now
     }
+
+
+    //Rule Checking Logic
+    public bool DoesNameMatchRule(string name) {
+
+        return false;
+    }
+
 }

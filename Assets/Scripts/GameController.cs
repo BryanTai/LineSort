@@ -87,15 +87,12 @@ public class GameController : MonoBehaviour {
     private void assignPersonToLineup(Person person, Lineup lineup)
     {
         string name = person.Name;
-        string rule = lineup.Rule;
+        string rule = lineup.RuleText;
         Debug.Log("Assigning " + name + " to " + rule);
 
-        float x = lineup.GetXPosition();
-        float y = lineup.GetLastSpot();
-        Debug.Log("X = " + x);
-        Debug.Log("Y = " + y);
+        Vector2 lastSpotInLine = new Vector2(lineup.GetXPosition(), lineup.GetLastSpot());
 
-        person.WalkToPoint(x, y);
+        person.TeleportToPoint(lastSpotInLine);
     }
 
     public void TestPublic()
