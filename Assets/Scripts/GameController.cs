@@ -77,13 +77,17 @@ public class GameController : MonoBehaviour {
         }*/
         if (newSelected.GetType() == typeof(Lineup) && currentlySelected.GetType() == typeof(Person))
         {
-            assignPersonToLineup(currentlySelected as Person, newSelected as Lineup);
+            //assignPersonToLineup(currentlySelected as Person, newSelected as Lineup);
+
+            Lineup selectedLineup = newSelected as Lineup;
+            selectedLineup.AssignPerson(currentlySelected as Person);
         }
 
         currentlySelected.BecomeDeselected();
         currentlySelected = newSelected;
     }
 
+    //TODO might not need this anymore
     private void assignPersonToLineup(Person person, Lineup lineup)
     {
         string name = person.Name;
