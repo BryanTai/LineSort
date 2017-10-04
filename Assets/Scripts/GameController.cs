@@ -7,14 +7,20 @@ public class GameController : MonoBehaviour {
     Selectable currentlySelected;
     
 
-    public List<Person> PersonWaitList; //TODO split into list of persons and lineups?
+    public List<Person> PersonWaitList;
+    public List<Lineup> Lineups;
     public PersonGenerator personGenerator;
+    public LineupGenerator lineupGenerator;
 
 	// Use this for initialization
 	void Start () {
         Debug.Log(gameObject.tag);
         PersonWaitList = new List<Person>();
+        Lineups = new List<Lineup>();
         personGenerator.Activate();
+
+        int totalLineups = 2;
+        lineupGenerator.Activate(totalLineups);
 	}
 	
 	// Update is called once per frame

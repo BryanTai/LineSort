@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rule {
+public enum RuleType { CONTAINS, VOWELS, CONSONENTS, LENGTH, STARTS, ENDS };
+public enum Equality { EQUAL, GREATER, LESSER }
 
-    public enum RuleType { CONTAINS, VOWELS, CONSONENTS, LENGTH, STARTS, ENDS};
-    public enum Equality { EQUAL, GREATER, LESSER}
+public class Rule {
 
     private RuleType ruleType;
     private Equality equality;
@@ -31,11 +31,10 @@ public class Rule {
 
     public static bool DoesNameMatchRule(string name, Rule rule)
     {
-
+        //I shouldn't have to worry about case if all my name data is ALL CAPS
         switch (rule.ruleType)
         {
             case RuleType.CONTAINS:
-                //I shouldn't have to worry about case if all my name data is ALL CAPS
                 return name.Contains(rule.firstWord); 
             case RuleType.VOWELS:
                 int numVowels = numberOfVowels(name);
@@ -87,9 +86,41 @@ public class Rule {
 
     public override string ToString()
     {
+        switch (ruleType)
+        {
+            case RuleType.CONTAINS:
+                return "CONTAINS " + firstWord;
+            case RuleType.VOWELS:
+                return string.Format("VOWELS {0} {1}", equalityToString(equality),amount);
+            case RuleType.CONSONENTS:
+                return string.Format("CONSONENTS {0} {1}", equalityToString(equality), amount);
+            case RuleType.LENGTH:
+                return string.Format("LENGTH {0} {1}", equalityToString(equality), amount);
+            case RuleType.STARTS:
+                return "STARTS WITH " + firstWord;
+            case RuleType.ENDS:
+                return "ENDS WITH " + firstWord;
+            default:
+                throw new ArgumentException();
+        }
         //TODO Placeholder, need to use a switch case for nicer text
-        return string.Format(
-            "RuleType {0}, Equality {1}, Amount {2}, FirstWord {3}, SecondWord, {4}", 
-            ruleType, equality, amount, firstWord, secondWord);
+        //return string.Format(
+        //    "RuleType {0}, Equality {1}, Amount {2}, FirstWord {3}, SecondWord, {4}", 
+        //    ruleType, equality, amount, firstWord, secondWord);
+    }
+
+    private string equalityToString(Equality equality)
+    {
+        switch (equality)
+        {
+            case Equality.EQUAL:
+                return "=";
+            case Equality.GREATER:
+                return ">";
+            case Equality.LESSER:
+                return "<";
+            default:
+                throw new ArgumentException();
+        }
     }
 }

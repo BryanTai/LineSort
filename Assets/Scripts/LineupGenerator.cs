@@ -4,26 +4,33 @@ using UnityEngine;
 
 public class LineupGenerator : MonoBehaviour {
 
-    public int TotalLineups = 2;//TODO for now
+    public GameObject lineupPrefab;
+    public GameController gameController;
+    private const float Y_POS = 2.5f;
+    private RuleGenerator ruleGenerator;
 
     //Rule Fields
 
     // Use this for initialization
     void Start () {
-		
+        ruleGenerator = new RuleGenerator();
 	}
 
-    public void Activate()
+    public void Activate(int totalLineups)
     {
-        for (int i = 0; i < TotalLineups; i++)
+        //TODO just loading 2 lineups for now
+        for (int i = 0; i < totalLineups; i++)
         {
-            Vector2 newLocation = new Vector2(0, 0);
-            createLineupAtLocation(newLocation);
+            float xPos = -2f + i * 4; //TODO need to tweak this logic with more lineups
+            createLineupAtLocation(xPos, Y_POS);
         }
     }
 
-    private void createLineupAtLocation(Vector2 location)
+    private void createLineupAtLocation(float x, float y)
     {
-        //TODO
+        Vector3 newPosition = new Vector3(x, y);
+        GameObject newLineupObject = Instantiate(lineupPrefab, newPosition, Quaternion.identity);
+        Lineup newLineup = newLineupObject.GetComponent<Lineup>();
+        newLineup.SetRule(ruleGenerator.GenerateNewRule());
     }
 }

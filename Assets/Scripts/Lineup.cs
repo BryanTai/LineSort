@@ -13,7 +13,7 @@ public class Lineup : Selectable {
 
     private TextMesh textMesh;
 
-    public Rule LineRule { get; set; }
+    public Rule Rule { get; private set; }
 
     void Awake()
     {
@@ -62,7 +62,7 @@ public class Lineup : Selectable {
             person.TeleportToPoint(lastSpotInLine);
             queuedPersons.Enqueue(person);
 
-            if (DoesNameMatchRule(person.Name))
+            if (doesNameMatchRule(person.Name))
             {
                 Debug.Log("Rule MATCHED!");
                 //Correct, add points
@@ -84,10 +84,14 @@ public class Lineup : Selectable {
         return toReturn;
     }
 
+    private bool doesNameMatchRule(string name) {
+        return Rule.DoesNameMatchRule(name, Rule);
+    }
 
-    //Rule Checking Logic
-    public bool DoesNameMatchRule(string name) {
-        return Rule.DoesNameMatchRule(name, LineRule);
+    public void SetRule(Rule rule)
+    {
+        this.Rule = rule;
+        textMesh.text = rule.ToString();
     }
 
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 public class PersonGenerator : MonoBehaviour {
 
     //TODO How to count time?
-    public GameObject person;
+    public GameObject personPrefab;
     const int MAX_PERSONS = 2;
     public GameController gameController;
 
@@ -45,7 +45,7 @@ public class PersonGenerator : MonoBehaviour {
     private void createPersonAtLocation(int x, int y)
     {
         Vector3 newPosition = new Vector3(x, y, 0);
-        GameObject newPersonGameObject = Instantiate(person, newPosition, Quaternion.identity);
+        GameObject newPersonGameObject = Instantiate(personPrefab, newPosition, Quaternion.identity);
         Person newPerson = newPersonGameObject.GetComponent<Person>();
 
         int randomIndex = rnd.Next(ALL_NAMES_AMOUNT);
