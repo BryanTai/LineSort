@@ -15,7 +15,8 @@ public class PersonGenerator : MonoBehaviour {
     //Name fields
     public TextAsset namesText;
     private string[] allNames;
-    const int ALL_NAMES_AMOUNT = 3;
+    const int MERANDA_NAMES_AMOUNT = 5163;
+    public string namesFilePath = "Assets/Resources/merandaNamesSorted.txt";
     System.Random rnd;
 
     //New Person positioning
@@ -31,7 +32,7 @@ public class PersonGenerator : MonoBehaviour {
 
     public void Activate()
     {
-        loadAllNamesFromTextFile();
+        loadAllNamesFromTextFile(namesFilePath);
 
         //TODO For now, just initializes two Persons
         for (int i = 0; i < MAX_PERSONS; i++)
@@ -48,7 +49,7 @@ public class PersonGenerator : MonoBehaviour {
         GameObject newPersonGameObject = Instantiate(personPrefab, newPosition, Quaternion.identity);
         Person newPerson = newPersonGameObject.GetComponent<Person>();
 
-        int randomIndex = rnd.Next(ALL_NAMES_AMOUNT);
+        int randomIndex = rnd.Next(MERANDA_NAMES_AMOUNT);
 
         string newName = allNames[randomIndex];
         Debug.Log("New Person: " + newName);
@@ -59,12 +60,9 @@ public class PersonGenerator : MonoBehaviour {
     }
 
     //TODO let's start with a small text file with only 3 names
-    private void loadAllNamesFromTextFile()
+    private void loadAllNamesFromTextFile(string path)
     {
-        allNames = new string[ALL_NAMES_AMOUNT];
-        string path = "Assets/Resources/names.txt"; //TODO Will probably be passing in the path or some other parameter as game grows
-        //TODO
-        //use names from https://stackoverflow.com/questions/1803628/raw-list-of-person-names
+        allNames = new string[MERANDA_NAMES_AMOUNT];
         int i = 0;
         foreach (string line in File.ReadAllLines(path, Encoding.UTF8)) {
             allNames[i] = line;
