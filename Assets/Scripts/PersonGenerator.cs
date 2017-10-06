@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class PersonGenerator : MonoBehaviour {
 
-    //TODO How to count time?
     public GameObject personPrefab;
     const int MAX_PERSONS = 2;
     public GameController gameController;
@@ -25,9 +24,14 @@ public class PersonGenerator : MonoBehaviour {
     int minY = -4;
     int maxY = 0;
 
-	// Use this for initialization
-	void Start () {
+    //Timer fields
+    private float startTime;
+    public float createPersonTime = 5;
+
+    // Use this for initialization
+    void Start () {
         rnd = new System.Random();
+        startTime = Time.time;
     }
 
     public void Activate()
@@ -37,10 +41,26 @@ public class PersonGenerator : MonoBehaviour {
         //TODO For now, just initializes two Persons
         for (int i = 0; i < MAX_PERSONS; i++)
         {
-            int nextX = rnd.Next(minX, maxX + 1);
-            int nextY = rnd.Next(minY, maxY + 1);
-            createPersonAtLocation(nextX, nextY);
+            createPersonAtRandomLocation();
         }
+    }
+
+    void Update()
+    {
+        float t = Time.time - startTime;
+        if(t > createPersonTime)
+        {
+            Debug.Log("Making a PERSON!!!!!!");
+            createPersonAtRandomLocation();
+            startTime = Time.time;
+        } 
+    } 
+
+    private void createPersonAtRandomLocation()
+    {
+        int nextX = rnd.Next(minX, maxX + 1);
+        int nextY = rnd.Next(minY, maxY + 1);
+        createPersonAtLocation(nextX, nextY);
     }
 
     private void createPersonAtLocation(int x, int y)
