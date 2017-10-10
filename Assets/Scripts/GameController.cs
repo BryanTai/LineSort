@@ -11,27 +11,39 @@ public class GameController : MonoBehaviour {
     public List<Lineup> Lineups;
     public PersonGenerator personGenerator;
     public LineupGenerator lineupGenerator;
+    private RuleGenerator ruleGenerator;
 
-	// Use this for initialization
-	void Start () {
+    private float changeRuleTime = 20;
+
+    // Use this for initialization
+    void Start () {
         Debug.Log(gameObject.tag);
         PersonWaitList = new List<Person>();
         Lineups = new List<Lineup>();
         personGenerator.Activate();
 
         int totalLineups = 2;
-        lineupGenerator.Activate(totalLineups);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+        ruleGenerator = new RuleGenerator();
+        List<Rule> initialRules = new List<Rule>(); //TODO could probablyjust use arrays
+        for (int i = 0; i < totalLineups; i++)
+        {
+            initialRules.Add(ruleGenerator.GenerateNewRule());
+        }
+        
+        lineupGenerator.Activate(initialRules);
+        InvokeRepeating("updateLineupRules", changeRuleTime, changeRuleTime);
 	}
 
     public void AddPersonToWaitList(Person newPerson)
     {
         //TODO Might need a lock on this later
         PersonWaitList.Add(newPerson);
+    }
+
+    public void AddLineupToLineups(Lineup lineup)
+    {
+        Lineups.Add(lineup);
     }
 
     //Selecting logic
@@ -97,7 +109,7 @@ public class GameController : MonoBehaviour {
     private void assignPersonToLineup(Person person, Lineup lineup)
     {
         string name = person.Name;
-        string rule = lineup.RuleText;
+        string rule = lineup.Rule.ToString();
         Debug.Log("Assigning " + name + " to " + rule);
 
         Vector2 lastSpotInLine = new Vector2(lineup.GetXPosition(), lineup.GetLastSpot());
@@ -105,8 +117,11 @@ public class GameController : MonoBehaviour {
         person.TeleportToPoint(lastSpotInLine);
     }
 
-    public void TestPublic()
+    private void updateLineupRules()
     {
-        Debug.Log("Call to GameController!");
+        foreach (Lineup lineup in Lineups)
+        {
+            lineup.SetRule(ruleGenerator.GenerateNewRule());
+        }
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Lineup : Selectable {
 
-    public string RuleText { get; set; } //TODO just a placeholder
     public int MaxPersons { get; set; }
     private Queue<Person> queuedPersons;
 
@@ -14,6 +13,8 @@ public class Lineup : Selectable {
     private TextMesh textMesh;
 
     public Rule Rule { get; private set; }
+
+    private float changeRuleTime = 20;
 
     void Awake()
     {
@@ -24,20 +25,20 @@ public class Lineup : Selectable {
         textMesh = childText.GetComponent<TextMesh>();
 
         //TODO for testing
-        RuleText = "PLACEHOLDER_RULE";
-        textMesh.text = RuleText;
+        textMesh.text = "PLACEHOLDER_RULE";
         MaxPersons = 3;
-    }
-
-    void Update()
-    {
-
     }
 
     void OnMouseDown()
     {
-        Debug.Log("Clicked Line: " + RuleText);
+        Debug.Log("Clicked Line: " + Rule.ToString());
         becomeSelected();
+    }
+
+    public void SetRule(Rule rule)
+    {
+        this.Rule = rule;
+        textMesh.text = rule.ToString();
     }
 
     public float GetXPosition()
@@ -56,7 +57,9 @@ public class Lineup : Selectable {
         if(queuedPersons.Count >= MaxPersons)
         {
             //Say that the LINE IS FULL!
-        }else
+            Debug.Log("LINE IS FULL!!!");
+        }
+        else
         {
             Vector2 lastSpotInLine = calculateLastSpot();
             person.TeleportToPoint(lastSpotInLine);
@@ -86,12 +89,6 @@ public class Lineup : Selectable {
 
     private bool doesNameMatchRule(string name) {
         return Rule.DoesNameMatchRule(name, Rule);
-    }
-
-    public void SetRule(Rule rule)
-    {
-        this.Rule = rule;
-        textMesh.text = rule.ToString();
     }
 
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 public class PersonGenerator : MonoBehaviour {
 
     public GameObject personPrefab;
-    const int MAX_PERSONS = 2;
+    const int MAX_PERSONS = 3;
     public GameController gameController;
 
     //Name fields
@@ -25,13 +25,11 @@ public class PersonGenerator : MonoBehaviour {
     int maxY = 0;
 
     //Timer fields
-    private float startTime;
     public float createPersonTime = 5;
 
     // Use this for initialization
     void Start () {
         rnd = new System.Random();
-        startTime = Time.time;
     }
 
     public void Activate()
@@ -43,19 +41,10 @@ public class PersonGenerator : MonoBehaviour {
         {
             createPersonAtRandomLocation();
         }
+        InvokeRepeating("createPersonAtRandomLocation", createPersonTime, createPersonTime);
     }
 
-    void Update()
-    {
-        float t = Time.time - startTime;
-        if(t > createPersonTime)
-        {
-            Debug.Log("Making a PERSON!!!!!!");
-            createPersonAtRandomLocation();
-            startTime = Time.time;
-        } 
-    } 
-
+    //TODO Cache the person locations so they don't end up stacked
     private void createPersonAtRandomLocation()
     {
         int nextX = rnd.Next(minX, maxX + 1);
@@ -79,17 +68,12 @@ public class PersonGenerator : MonoBehaviour {
         gameController.AddPersonToWaitList(newPerson);
     }
 
-    //TODO let's start with a small text file with only 3 names
     private void loadAllNamesFromTextFile(string path)
     {
         allNames = new string[MERANDA_NAMES_AMOUNT];
         int i = 0;
         foreach (string line in File.ReadAllLines(path, Encoding.UTF8)) {
             allNames[i] = line;
-
-            //TODO REMOVE THIS WHEN WE USE MORE NAMES OR CONSOLE IS GONNA FLOOD
-            //Debug.Log(allNames[i]); 
-
             i++;
         }
     }
