@@ -46,7 +46,7 @@ public class Person : Selectable {
 
     void OnMouseDown()
     {
-        Debug.Log("Clicked Person: " + Name);
+        //Debug.Log("Clicked Person: " + Name);
         becomeSelected();
         textRenderer.enabled = true;
         personRenderer.sortingOrder = 2; //Move it to the front

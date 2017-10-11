@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour {
     public LineupGenerator lineupGenerator;
     private RuleGenerator ruleGenerator;
 
-    private float changeRuleTime = 20;
+    private float changeRuleTime = 20; //TODO tweak this
 
     // Use this for initialization
     void Start () {

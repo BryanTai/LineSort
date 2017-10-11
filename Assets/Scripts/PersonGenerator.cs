@@ -25,7 +25,7 @@ public class PersonGenerator : MonoBehaviour {
     int maxY = 0;
 
     //Timer fields
-    public float createPersonTime = 5;
+    private float createPersonTime = 2;
 
     // Use this for initialization
     void Start () {
