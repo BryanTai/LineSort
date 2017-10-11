@@ -14,7 +14,6 @@ public class Lineup : Selectable {
 
     public Rule Rule { get; private set; }
 
-    private float changeRuleTime = 20;
 
     void Awake()
     {
@@ -80,10 +79,12 @@ public class Lineup : Selectable {
 
     private Vector2 calculateLastSpot()
     {
+        //TODO this works for ODD values of MaxPersons
         Vector2 toReturn = new Vector2();
         toReturn.x = transform.position.x;
-        toReturn.y = transform.position.y; //TODO placeholder
-
+        int listOffset = ((int)(MaxPersons / 2)) - queuedPersons.Count;
+        float yOffset = listOffset * PERSON_Y_OFFSET;
+        toReturn.y = transform.position.y + yOffset;
         return toReturn;
     }
 
