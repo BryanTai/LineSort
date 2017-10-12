@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Timer : MonoBehaviour {
@@ -19,6 +17,11 @@ public class Timer : MonoBehaviour {
 
         string minutes = ((int)t / 60).ToString();
         string seconds = (t % 60).ToString("f0"); //set to "f2" for 2 decimal places
+
+        if(t % 60 < 10)
+        {
+            seconds = "0" + seconds;
+        }
 
         TimerText.text = minutes + ":" + seconds;
         //TODO nicer formatting (e.g. add a 0 if the seconds is < 10)

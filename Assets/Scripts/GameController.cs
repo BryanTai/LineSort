@@ -1,17 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-    Selectable currentlySelected;
-    
+    public PersonGenerator PersonGenerator;
+    public LineupGenerator LineupGenerator;
+    private RuleGenerator ruleGenerator;
+    public Scoreboard Scoreboard;
 
+    Selectable currentlySelected;
     public List<Person> PersonWaitList;
     public List<Lineup> Lineups;
-    public PersonGenerator personGenerator;
-    public LineupGenerator lineupGenerator;
-    private RuleGenerator ruleGenerator;
 
     private float changeRuleTime = 20; //TODO tweak this
 
@@ -20,7 +19,7 @@ public class GameController : MonoBehaviour {
         Debug.Log(gameObject.tag);
         PersonWaitList = new List<Person>();
         Lineups = new List<Lineup>();
-        personGenerator.Activate();
+        PersonGenerator.Activate();
 
         int totalLineups = 2;
 
@@ -31,7 +30,9 @@ public class GameController : MonoBehaviour {
             initialRules.Add(ruleGenerator.GenerateNewRule());
         }
         
-        lineupGenerator.Activate(initialRules);
+        LineupGenerator.Activate(initialRules);
+
+        Scoreboard.UpdateScore(0);
         InvokeRepeating("updateLineupRules", changeRuleTime, changeRuleTime);
 	}
 
@@ -73,48 +74,28 @@ public class GameController : MonoBehaviour {
             return;
         }
 
-        /*
-        System.Type newSelType = newSelected.GetType();
-        System.Type currSelType = currentlySelected.GetType();
-
-        if (newSelType == typeof(Person))
-        {
-            currentlySelected.BecomeDeselected();
-        }
-        else if(newSelType == typeof(Lineup))
-        {
-            if (currSelType == typeof(Person))
-            {
-                currentlySelected.BecomeDeselected();
-                assignPersonToLineup(currentlySelected as Person, newSelected as Lineup);
-            }
-            else if (currSelType == typeof(Lineup))
-            {
-                currentlySelected.BecomeDeselected();
-            }
-        }*/
         if (newSelected.GetType() == typeof(Lineup) && currentlySelected.GetType() == typeof(Person))
         {
-            //assignPersonToLineup(currentlySelected as Person, newSelected as Lineup);
-
             Lineup selectedLineup = newSelected as Lineup;
-            selectedLineup.AssignPerson(currentlySelected as Person);
+            Person selectedPerson = currentlySelected as Person;
+            bool personGotAssigned = selectedLineup.AssignPerson(selectedPerson);
+            if (personGotAssigned){
+                if (Rule.DoesNameMatchRule(selectedPerson.name, selectedLineup.Rule))
+                {
+                    //Correct, add points
+                    Debug.Log("Rule MATCHED!");
+                    Scoreboard.IncreaseScore(1); //TODO different Persons will have different score values
+                }
+                else
+                {
+                    //Incorrect, no points
+                    Debug.Log("Rule INCORRECT!");
+                }
+            }
         }
 
         currentlySelected.BecomeDeselected();
         currentlySelected = newSelected;
-    }
-
-    //TODO might not need this anymore
-    private void assignPersonToLineup(Person person, Lineup lineup)
-    {
-        string name = person.Name;
-        string rule = lineup.Rule.ToString();
-        Debug.Log("Assigning " + name + " to " + rule);
-
-        Vector2 lastSpotInLine = new Vector2(lineup.GetXPosition(), lineup.GetLastSpot());
-
-        person.TeleportToPoint(lastSpotInLine);
     }
 
     private void updateLineupRules()

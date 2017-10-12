@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Lineup : Selectable {
@@ -88,29 +86,20 @@ public class Lineup : Selectable {
         return transform.position.y; //TODO for now
     }
 
-    public void AssignPerson(Person person)
+    public bool AssignPerson(Person person)
     {
         if(queuedPersons.Count >= MaxPersons)
         {
             //Say that the LINE IS FULL!
             Debug.Log("LINE IS FULL!!!");
+            return false;
         }
         else
         {
             Vector2 lastSpotInLine = calculateLastSpot();
             person.TeleportToPoint(lastSpotInLine);
             queuedPersons.Enqueue(person);
-
-            if (doesNameMatchRule(person.Name))
-            {
-                Debug.Log("Rule MATCHED!");
-                //Correct, add points
-            }
-            else
-            {
-                //Incorrect, no points
-                Debug.Log("Rule INCORRECT!");
-            }
+            return true;
         }
     }
 
@@ -124,10 +113,6 @@ public class Lineup : Selectable {
         float yOffset = listOffset * PERSON_Y_OFFSET;
         toReturn.y = transform.position.y + yOffset;
         return toReturn;
-    }
-
-    private bool doesNameMatchRule(string name) {
-        return Rule.DoesNameMatchRule(name, Rule);
     }
 
 }

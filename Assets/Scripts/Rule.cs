@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public enum RuleType { CONTAINS, VOWELS, CONSONENTS, LENGTH, STARTS, ENDS };
 public enum Equality { EQUAL, GREATER, LESSER }
