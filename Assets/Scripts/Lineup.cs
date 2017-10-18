@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Lineup : Selectable {
@@ -72,7 +73,28 @@ public class Lineup : Selectable {
     public void SetRule(Rule rule)
     {
         this.Rule = rule;
-        textMesh.text = rule.ToString();
+        //textMesh.text = rule.ToString(); //TODO PUT THIS BACK
+        fillTextField(rule.ToString());
+    }
+
+    private void fillTextField(string newText)
+    {
+        float rowLimit = 1f; //TODO TEST THIS
+        string[] words = newText.Split(' ');
+        string temp;
+        textMesh.text = "";
+        MeshRenderer textRenderer = textMesh.GetComponent<MeshRenderer>();
+        for (int i = 0; i < words.Length; i++)
+        {
+            temp = textMesh.text;
+            textMesh.text += words[i] + " ";
+            if (textRenderer.bounds.extents.x > rowLimit)
+            {
+                temp += Environment.NewLine;
+                temp += words[i] + " ";
+                textMesh.text = temp;
+            }
+        }
     }
 
     public float GetXPosition()
