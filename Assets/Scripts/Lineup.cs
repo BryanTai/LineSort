@@ -79,7 +79,7 @@ public class Lineup : Selectable {
 
     private void fillTextField(string newText)
     {
-        float rowLimit = 1f; //TODO TEST THIS
+        float rowLimit = 1.5f; //TODO TEST THIS
         string[] words = newText.Split(' ');
         string temp;
         textMesh.text = "";

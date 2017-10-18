@@ -80,7 +80,7 @@ public class GameController : MonoBehaviour {
             Person selectedPerson = currentlySelected as Person;
             bool personGotAssigned = selectedLineup.AssignPerson(selectedPerson);
             if (personGotAssigned){
-                if (Rule.DoesNameMatchRule(selectedPerson.name, selectedLineup.Rule))
+                if (Rule.NameMatchesRule(selectedPerson.name, selectedLineup.Rule))
                 {
                     //Correct, add points
                     Debug.Log("Rule MATCHED!");

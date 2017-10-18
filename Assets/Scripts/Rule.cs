@@ -11,11 +11,6 @@ public class Rule {
     private string firstWord;
     private string secondWord;
 
-    public Rule()
-    {
-
-    }
-
     public Rule(RuleType ruleType, Equality equality = Equality.EQUAL, 
         int amount = 0, string firstWord = "", string secondWord = "")
     {
@@ -26,7 +21,7 @@ public class Rule {
         this.secondWord = secondWord;
     }
 
-    public static bool DoesNameMatchRule(string name, Rule rule)
+    public static bool NameMatchesRule(string name, Rule rule)
     {
         //I shouldn't have to worry about case if all my name data is ALL CAPS
         switch (rule.ruleType)
@@ -35,12 +30,12 @@ public class Rule {
                 return name.Contains(rule.firstWord); 
             case RuleType.VOWELS:
                 int numVowels = numberOfVowels(name);
-                return doesCountMatchEquality(numVowels, rule.amount, rule.equality);
+                return countMatchesEquality(numVowels, rule.amount, rule.equality);
             case RuleType.CONSONENTS:
                 int numConsonents = name.Length - numberOfVowels(name);
-                return doesCountMatchEquality(numConsonents, rule.amount, rule.equality);
+                return countMatchesEquality(numConsonents, rule.amount, rule.equality);
             case RuleType.LENGTH:
-                return doesCountMatchEquality(name.Length, rule.amount, rule.equality);
+                return countMatchesEquality(name.Length, rule.amount, rule.equality);
             case RuleType.STARTS:
                 string nameStart = name.Substring(0, rule.firstWord.Length);
                 return nameStart == rule.firstWord;
@@ -53,7 +48,7 @@ public class Rule {
         }
     }
 
-    private static bool doesCountMatchEquality(int count, int ruleAmount, Equality myEquality)
+    private static bool countMatchesEquality(int count, int ruleAmount, Equality myEquality)
     {
         switch (myEquality)
         {
@@ -68,6 +63,8 @@ public class Rule {
         }
     }
 
+    //Note that the letter Y is not a vowel
+    //TODO maybe add some wiggle room and count it as both?
     private static int numberOfVowels(string name)
     {
         int total = 0;
