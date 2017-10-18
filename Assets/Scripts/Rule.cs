@@ -37,9 +37,11 @@ public class Rule {
             case RuleType.LENGTH:
                 return countMatchesEquality(name.Length, rule.amount, rule.equality);
             case RuleType.STARTS:
+                if (name.Length < rule.firstWord.Length) return false;
                 string nameStart = name.Substring(0, rule.firstWord.Length);
                 return nameStart == rule.firstWord;
             case RuleType.ENDS:
+                if (name.Length < rule.firstWord.Length) return false;
                 int offset = name.Length - rule.firstWord.Length;
                 string nameEnd = name.Substring(offset, rule.firstWord.Length);
                 return nameEnd == rule.firstWord;

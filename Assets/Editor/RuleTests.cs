@@ -142,4 +142,49 @@ public class RuleTest {
         Assert.False(Rule.NameMatchesRule("HARRY", lengthLesserThan3Rule));
     }
 
+    [Test]
+    public void StartsOneLetterTest()
+    {
+        Rule startsWithFRule = new Rule(ruleType: RuleType.STARTS, firstWord: "F");
+        Assert.False(Rule.NameMatchesRule("", startsWithFRule));
+        Assert.False(Rule.NameMatchesRule("A", startsWithFRule));
+        Assert.True(Rule.NameMatchesRule("F", startsWithFRule));
+        Assert.False(Rule.NameMatchesRule("AF", startsWithFRule));
+        Assert.True(Rule.NameMatchesRule("FA", startsWithFRule));
+    }
+
+    [Test]
+    public void StartsThreeLetterTest()
+    {
+        Rule startsWithJACRule = new Rule(ruleType: RuleType.STARTS, firstWord: "JAC");
+        Assert.False(Rule.NameMatchesRule("", startsWithJACRule));
+        Assert.False(Rule.NameMatchesRule("A", startsWithJACRule));
+        Assert.True(Rule.NameMatchesRule("JAC", startsWithJACRule));
+        Assert.False(Rule.NameMatchesRule("AJAC", startsWithJACRule));
+        Assert.True(Rule.NameMatchesRule("JACK", startsWithJACRule));
+        Assert.False(Rule.NameMatchesRule("CAJ", startsWithJACRule));
+    }
+
+    [Test]
+    public void EndsOneLetterTest()
+    {
+        Rule endsWithXRule = new Rule(ruleType: RuleType.ENDS, firstWord: "X");
+        Assert.False(Rule.NameMatchesRule("", endsWithXRule));
+        Assert.False(Rule.NameMatchesRule("O", endsWithXRule));
+        Assert.True(Rule.NameMatchesRule("X", endsWithXRule));
+        Assert.False(Rule.NameMatchesRule("XO", endsWithXRule));
+        Assert.True(Rule.NameMatchesRule("OX", endsWithXRule));
+    }
+
+    [Test]
+    public void EndsThreeLetterTest()
+    {
+        Rule endsWithONYRule = new Rule(ruleType: RuleType.ENDS, firstWord: "ONY");
+        Assert.False(Rule.NameMatchesRule("", endsWithONYRule));
+        Assert.False(Rule.NameMatchesRule("A", endsWithONYRule));
+        Assert.True(Rule.NameMatchesRule("ONY", endsWithONYRule));
+        Assert.False(Rule.NameMatchesRule("ONYA", endsWithONYRule));
+        Assert.True(Rule.NameMatchesRule("TONY", endsWithONYRule));
+        Assert.False(Rule.NameMatchesRule("YON", endsWithONYRule));
+    }
 }
