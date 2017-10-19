@@ -5,25 +5,39 @@ public class Timer : MonoBehaviour {
     public Text TimerText;
 
     private float startTime;
+    public float timeLeftSeconds;
+    private bool gameOver = false;
 
 	// Use this for initialization
 	void Start () {
         startTime = Time.time;
+        timeLeftSeconds = 120; //TODO set value some other way
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        float t = Time.time - startTime;
+        if (gameOver)
+        {
+            return;
+        }
 
-        string minutes = ((int)t / 60).ToString();
-        string seconds = (t % 60).ToString("f0"); //set to "f2" for 2 decimal places
+        timeLeftSeconds -= Time.deltaTime;
+        float timeToPrint = Mathf.Round(timeLeftSeconds);
+        string minutes = ((int)timeToPrint / 60).ToString();
+        string seconds = (timeToPrint % 60).ToString("f0"); //set to "f2" for 2 decimal places
 
-        if(t % 60 < 10)
+        if(timeToPrint % 60 < 10)
         {
             seconds = "0" + seconds;
         }
 
         TimerText.text = minutes + ":" + seconds;
-        //TODO nicer formatting (e.g. add a 0 if the seconds is < 10)
-	}
+
+        if (timeLeftSeconds < 0)
+        {
+            Debug.Log("GAME OVER!!!");
+            //TODO signal the GameController....or incorperate this code into GameController
+            gameOver = true;
+        }
+    }
 }
