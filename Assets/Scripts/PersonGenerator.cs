@@ -9,7 +9,6 @@ public class PersonGenerator : MonoBehaviour {
     public GameController gameController;
 
     //Name fields
-    public TextAsset namesText;
     private string[] allNames;
     const int MERANDA_NAMES_AMOUNT = 5163;
     public string namesFilePath = "Assets/Resources/merandaNamesSorted.txt";

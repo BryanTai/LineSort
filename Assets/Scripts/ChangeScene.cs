@@ -2,10 +2,16 @@
 
 public class ChangeScene : MonoBehaviour {
 
-    public string MainGame;
+    private const string MAINGAME = "MainGame";
+    private const string COMPLETE = "LevelComplete";
     
     public void StartGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(MainGame);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(MAINGAME);
+    }
+
+    public void CompleteGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(COMPLETE);
     }
 }

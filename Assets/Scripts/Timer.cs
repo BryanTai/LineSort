@@ -11,7 +11,7 @@ public class Timer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         startTime = Time.time;
-        timeLeftSeconds = 120; //TODO set value some other way
+        timeLeftSeconds = 20; //TODO set value some other way
 	}
 	
 	// Update is called once per frame
@@ -38,6 +38,10 @@ public class Timer : MonoBehaviour {
             Debug.Log("GAME OVER!!!");
             //TODO signal the GameController....or incorperate this code into GameController
             gameOver = true;
+
+            
+            //THIS IS JUST A TEST
+            UnityEngine.SceneManagement.SceneManager.LoadScene("LevelComplete");
         }
     }
 }
