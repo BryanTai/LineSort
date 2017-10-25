@@ -11,7 +11,7 @@ public class PersonGenerator : MonoBehaviour {
     //Name fields
     private string[] allNames;
     const int MERANDA_NAMES_AMOUNT = 5163;
-    public string namesFilePath = "Assets/Resources/merandaNamesSorted.txt";
+    private string namesFilePath = "merandaNamesSorted";
     System.Random rnd;
 
     //New Person positioning
@@ -23,13 +23,9 @@ public class PersonGenerator : MonoBehaviour {
     //Timer fields
     private float createPersonTime = 2;
 
-    // Use this for initialization
-    void Start () {
-        rnd = new System.Random();
-    }
-
     public void Activate()
     {
+        rnd = new System.Random();
         loadAllNamesFromTextFile(namesFilePath);
 
         //TODO For now, just initializes two Persons
@@ -67,8 +63,11 @@ public class PersonGenerator : MonoBehaviour {
     private void loadAllNamesFromTextFile(string path)
     {
         allNames = new string[MERANDA_NAMES_AMOUNT];
+        TextAsset allNamesAsset = Resources.Load<TextAsset>(path);
+        string[] linesFromFile = allNamesAsset.text.Split("\n"[0]);
+
         int i = 0;
-        foreach (string line in File.ReadAllLines(path, Encoding.UTF8)) {
+        foreach (string line in linesFromFile) {
             allNames[i] = line;
             i++;
         }

@@ -9,11 +9,6 @@ public class LineupGenerator : MonoBehaviour {
 
     //Rule Fields
 
-    // Use this for initialization
-    void Start () {
-        
-	}
-
     public void Activate(List<Rule> initialRules)
     {
         int totalLineups = initialRules.Count;
