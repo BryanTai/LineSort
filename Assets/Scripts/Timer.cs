@@ -11,7 +11,7 @@ public class Timer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         startTime = Time.time;
-        timeLeftSeconds = 20; //TODO set value some other way
+        timeLeftSeconds = 120; //TODO set value some other way
 	}
 	
 	// Update is called once per frame
