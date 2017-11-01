@@ -12,7 +12,14 @@ public class Timer : MonoBehaviour {
 	void Start () {
         startTime = Time.time;
         timeLeftSeconds = 120; //TODO set value some other way
-	}
+
+        RectTransform timerRect = TimerText.GetComponent<RectTransform>();
+        float timerX = 0;//Screen.width * -0.4f;
+        float timerY = Screen.height * 0.45f;
+        timerRect.anchoredPosition = new Vector2(timerX, timerY); //Top middle
+
+        Debug.Log("TIME WIDTH : " + timerX + " TIME HEIGHT : " + timerY);
+    }
 	
 	// Update is called once per frame
 	void Update () {
