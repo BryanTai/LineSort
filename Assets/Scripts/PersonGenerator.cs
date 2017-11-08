@@ -5,7 +5,7 @@ using UnityEngine;
 public class PersonGenerator : MonoBehaviour {
 
     public GameObject personPrefab;
-    const int MAX_PERSONS = 3;
+    const int INITIAL_PERSONS = 16; //TODO LOWER THIS, JUST FOR TESTING
     public GameController gameController;
 
     //Name fields
@@ -15,10 +15,10 @@ public class PersonGenerator : MonoBehaviour {
     System.Random rnd;
 
     //New Person positioning
-    int minX = -5;
-    int maxX = 5;
+    int minX = -2;
+    int maxX = 2;
     int minY = -4;
-    int maxY = 0;
+    int maxY = -1;
 
     //Timer fields
     private float createPersonTime = 2;
@@ -28,8 +28,7 @@ public class PersonGenerator : MonoBehaviour {
         rnd = new System.Random();
         loadAllNamesFromTextFile(namesFilePath);
 
-        //TODO For now, just initializes two Persons
-        for (int i = 0; i < MAX_PERSONS; i++)
+        for (int i = 0; i < INITIAL_PERSONS; i++)
         {
             createPersonAtRandomLocation();
         }
@@ -46,7 +45,13 @@ public class PersonGenerator : MonoBehaviour {
 
     private void createPersonAtLocation(int x, int y)
     {
-        Vector3 newPosition = new Vector3(x, y, 0);
+        float finalY = y;
+        if (x % 2 == 0) //stagger the person layout to reduce name clipping
+        {
+            finalY -= 0.25f;
+        }
+
+        Vector3 newPosition = new Vector3(x, finalY, 0);
         GameObject newPersonGameObject = Instantiate(personPrefab, newPosition, Quaternion.identity);
         Person newPerson = newPersonGameObject.GetComponent<Person>();
 

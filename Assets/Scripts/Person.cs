@@ -29,6 +29,10 @@ public class Person : Selectable {
         walkSpeed = 1.0f; //TODO Adjust this
 
         personRigidBody = GetComponent<Rigidbody2D>();
+
+        //TODO show all text for now
+        //FIND THE OTHER ENABLED
+        textRenderer.enabled = true;
     }
 
     void Update()
@@ -46,7 +50,7 @@ public class Person : Selectable {
     {
         //Debug.Log("Clicked Person: " + Name);
         becomeSelected();
-        textRenderer.enabled = true;
+        //textRenderer.enabled = true;
         personRenderer.sortingOrder = 2; //Move it to the front
     }
 
@@ -59,7 +63,7 @@ public class Person : Selectable {
     public override void BecomeDeselected()
     {
         base.BecomeDeselected();
-        textRenderer.enabled = false;
+        //textRenderer.enabled = false;
         personRenderer.sortingOrder = 0;
     }
 
