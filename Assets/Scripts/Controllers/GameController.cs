@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour {
         Lineups = new List<Lineup>();
         PersonGenerator.Activate();
 
-        int totalLineups = 2;
+        int totalLineups = 3;
 
         ruleGenerator = new RuleGenerator();
         List<Rule> initialRules = new List<Rule>(); //TODO could probablyjust use arrays

@@ -11,7 +11,6 @@ public class Person : Selectable {
     private bool isWalking;
     private float destinationX;
     private float destinationY;
-    private float walkSpeed;
 
     void Awake()
     {
@@ -26,7 +25,6 @@ public class Person : Selectable {
         textRenderer.sortingLayerName = "Names";
         textRenderer.sortingOrder = 1;
         isWalking = false;
-        walkSpeed = 1.0f; //TODO Adjust this
 
         personRigidBody = GetComponent<Rigidbody2D>();
 
@@ -50,6 +48,7 @@ public class Person : Selectable {
     {
         //Debug.Log("Clicked Person: " + Name);
         becomeSelected();
+        //TODO Make the name text BIGGER
         //textRenderer.enabled = true;
         personRenderer.sortingOrder = 2; //Move it to the front
     }
@@ -63,6 +62,7 @@ public class Person : Selectable {
     public override void BecomeDeselected()
     {
         base.BecomeDeselected();
+        //TODO make the name text back to Default size
         //textRenderer.enabled = false;
         personRenderer.sortingOrder = 0;
     }

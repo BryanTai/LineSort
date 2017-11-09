@@ -85,36 +85,33 @@ public class Rule {
         switch (ruleType)
         {
             case RuleType.CONTAINS:
-                return "CONTAINS " + firstWord;
+                return string.Format("CONTAINS '{0}'", firstWord);
             case RuleType.VOWELS:
-                return string.Format("VOWELS {0} {1}", equalityToString(equality),amount);
+                return string.Format("{0} {1} VOWELS", equalityToString(equality),amount);
             case RuleType.CONSONENTS:
-                return string.Format("CONSONENTS {0} {1}", equalityToString(equality), amount);
+                return string.Format("{0} {1} CONSONENTS", equalityToString(equality), amount);
             case RuleType.LENGTH:
-                return string.Format("LENGTH {0} {1}", equalityToString(equality), amount);
+                return string.Format("LENGTH IS {0} {1}", equalityToString(equality), amount);
             case RuleType.STARTS:
-                return "STARTS WITH " + firstWord;
+                return string.Format("STARTS WITH '{0}'", firstWord);
             case RuleType.ENDS:
-                return "ENDS WITH " + firstWord;
+                return string.Format("ENDS WITH '{0}'", firstWord);
             default:
                 throw new ArgumentException();
         }
-        //TODO Placeholder, need to use a switch case for nicer text
-        //return string.Format(
-        //    "RuleType {0}, Equality {1}, Amount {2}, FirstWord {3}, SecondWord, {4}", 
-        //    ruleType, equality, amount, firstWord, secondWord);
     }
 
+    //TODO playtest whether phrases or symbols make more sense
     private string equalityToString(Equality equality)
     {
         switch (equality)
         {
             case Equality.EQUAL:
-                return "=";
+                return "EXACTLY";
             case Equality.GREATER:
-                return ">";
+                return "MORE THAN";
             case Equality.LESSER:
-                return "<";
+                return "LESS THAN";
             default:
                 throw new ArgumentException();
         }

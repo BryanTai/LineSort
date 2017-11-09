@@ -5,7 +5,7 @@ using UnityEngine;
 public class PersonGenerator : MonoBehaviour {
 
     public GameObject personPrefab;
-    const int INITIAL_PERSONS = 16; //TODO LOWER THIS, JUST FOR TESTING
+    const int INITIAL_PERSONS = 5; //Set this really big to test spacing
     public GameController gameController;
 
     //Name fields

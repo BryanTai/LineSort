@@ -12,10 +12,9 @@ public class LineupGenerator : MonoBehaviour {
     public void Activate(List<Rule> initialRules)
     {
         int totalLineups = initialRules.Count;
-        //TODO just loading 2 lineups for now
         for (int i = 0; i < totalLineups; i++)
         {
-            float xPos = -2f + i * 4; //TODO need to tweak this logic with more lineups
+            float xPos = -2f + i * 2; //TODO need to tweak this logic with more lineups
             createLineupAtLocation(xPos, Y_POS, initialRules[i]);
         }
     }

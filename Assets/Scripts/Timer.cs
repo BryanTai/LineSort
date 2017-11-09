@@ -44,10 +44,9 @@ public class Timer : MonoBehaviour {
         {
             Debug.Log("GAME OVER!!!");
             //TODO signal the GameController....or incorperate this code into GameController
+            //... or just leave it be?
             gameOver = true;
 
-            
-            //THIS IS JUST A TEST
             UnityEngine.SceneManagement.SceneManager.LoadScene("LevelComplete");
         }
     }

@@ -7,7 +7,7 @@ public class Lineup : Selectable {
     public int MaxPersons { get; set; }
     private Queue<Person> queuedPersons;
 
-    private const float PERSON_Y_OFFSET = 1.15f;
+    private const float PERSON_Y_OFFSET = 1f;
     private float timeToProcessPerson = 3; //TODO tweak this
 
     private TextMesh textMesh;
@@ -73,13 +73,12 @@ public class Lineup : Selectable {
     public void SetRule(Rule rule)
     {
         this.Rule = rule;
-        //textMesh.text = rule.ToString(); //TODO PUT THIS BACK
         fillTextField(rule.ToString());
     }
 
     private void fillTextField(string newText)
     {
-        float rowLimit = 1.5f; //TODO TEST THIS
+        float rowLimit = 1.0f; //TODO TEST THIS
         string[] words = newText.Split(' ');
         string temp;
         textMesh.text = "";
@@ -100,12 +99,6 @@ public class Lineup : Selectable {
     public float GetXPosition()
     {
         return transform.position.x;
-    }
-
-    //This depends on how many Persons are lined up already
-    public float GetLastSpot()
-    {
-        return transform.position.y; //TODO for now
     }
 
     public bool AssignPerson(Person person)
