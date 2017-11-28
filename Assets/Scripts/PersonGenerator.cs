@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using UnityEngine;
 
@@ -20,10 +21,12 @@ public class PersonGenerator : MonoBehaviour {
     int minY = -4;
     int maxY = -1;
 
+    private bool[] occupiedPositions;
+
     //Timer fields
     private float createPersonTime = 2;
 
-    public void Activate()
+    public void Activate(int maxPersonsForLevel)
     {
         rnd = new System.Random();
         loadAllNamesFromTextFile(namesFilePath);
@@ -32,6 +35,8 @@ public class PersonGenerator : MonoBehaviour {
         {
             createPersonAtRandomLocation();
         }
+        occupiedPositions = new bool[maxPersonsForLevel];
+
         InvokeRepeating("createPersonAtRandomLocation", createPersonTime, createPersonTime);
     }
 
@@ -62,7 +67,15 @@ public class PersonGenerator : MonoBehaviour {
         newPersonGameObject.name = newName;
         newPerson.SetName(newName);
 
-        gameController.AddPersonToWaitList(newPerson);
+        //gameController.AddPersonToWaitList(newPerson); //TODO this might be unnecessary now
+        int index = convertXYToIndex(x, y);
+        occupiedPositions[index] = true;
+    }
+
+    private int convertXYToIndex(int x, int y)
+    {
+        int columns = maxX - minX;
+        return (columns * (y + 1)) + x + 2;
     }
 
     private void loadAllNamesFromTextFile(string path)

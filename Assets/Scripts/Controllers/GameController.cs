@@ -9,17 +9,18 @@ public class GameController : MonoBehaviour {
     public Scoreboard Scoreboard;
 
     Selectable currentlySelected;
-    public List<Person> PersonWaitList;
+    public List<Person> PersonWaitList; //TODO this might be unnecessary now
     public List<Lineup> Lineups;
 
     private float changeRuleTime = 20; //TODO tweak this
+    private int maxPersonsForLevel = 20; //TODO this seems to be a good MAX for hardest levels
 
     // Use this for initialization
     void Start () {
         Debug.Log(gameObject.tag);
         PersonWaitList = new List<Person>();
         Lineups = new List<Lineup>();
-        PersonGenerator.Activate();
+        PersonGenerator.Activate(maxPersonsForLevel);
 
         int totalLineups = 3;
 
