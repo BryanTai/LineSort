@@ -51,6 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e30f73947cf3184d91f0f79de435262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  person: {fileID: 1872650833367636, guid: 0e4ed2005218c6d42849731c0ddbc033, type: 2}
+  personPrefab: {fileID: 1872650833367636, guid: 0e4ed2005218c6d42849731c0ddbc033,
+    type: 2}
   gameController: {fileID: 0}
-  namesText: {fileID: 0}

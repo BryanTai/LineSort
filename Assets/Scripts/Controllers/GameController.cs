@@ -9,18 +9,23 @@ public class GameController : MonoBehaviour {
     public Scoreboard Scoreboard;
 
     Selectable currentlySelected;
-    public List<Person> PersonWaitList; //TODO this might be unnecessary now
+    public List<Person> PersonWaitList;
     public List<Lineup> Lineups;
 
-    private float changeRuleTime = 20; //TODO tweak this
     private int maxPersonsForLevel = 20; //TODO this seems to be a good MAX for hardest levels
+    private int totalWaitingPersons = 0;
+
+    //Timer Fields
+    private float createPersonTime = 2;
+    private float changeRuleTime = 20; //TODO tweak this
+    
 
     // Use this for initialization
     void Start () {
         Debug.Log(gameObject.tag);
         PersonWaitList = new List<Person>();
         Lineups = new List<Lineup>();
-        PersonGenerator.Activate(maxPersonsForLevel);
+        PersonGenerator.Activate(maxPersonsForLevel);       
 
         int totalLineups = 3;
 
@@ -35,7 +40,27 @@ public class GameController : MonoBehaviour {
 
         Scoreboard.UpdateScore(0);
         InvokeRepeating("updateLineupRules", changeRuleTime, changeRuleTime);
-	}
+        InvokeRepeating("createNewPerson", createPersonTime, createPersonTime);
+    }
+
+    private void createNewPerson()
+    {
+        if(totalWaitingPersons < maxPersonsForLevel)
+        {
+            PersonGenerator.CreatePersonAtRandomLocation();
+            totalWaitingPersons++;
+        }
+        else
+        {
+            handleTooManyPeople();
+        }
+    }
+
+    //TODO
+    private void handleTooManyPeople()
+    {
+        Debug.Log("TOO MANY PEOPLE! CANNOT GENERATE A NEW PERSON!");
+    }
 
     public void AddPersonToWaitList(Person newPerson)
     {
@@ -77,10 +102,11 @@ public class GameController : MonoBehaviour {
 
         if (newSelected.GetType() == typeof(Lineup) && currentlySelected.GetType() == typeof(Person))
         {
+            //TODO Remove Person from PersonGenerator cache
             Lineup selectedLineup = newSelected as Lineup;
             Person selectedPerson = currentlySelected as Person;
-            bool personGotAssigned = selectedLineup.AssignPerson(selectedPerson);
-            if (personGotAssigned){
+            bool assignedCorrectly = selectedLineup.AssignPerson(selectedPerson);
+            if (assignedCorrectly){
                 if (Rule.NameMatchesRule(selectedPerson.name, selectedLineup.Rule))
                 {
                     //Correct, add points

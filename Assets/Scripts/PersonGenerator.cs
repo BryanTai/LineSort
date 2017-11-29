@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -21,30 +22,44 @@ public class PersonGenerator : MonoBehaviour {
     int minY = -4;
     int maxY = -1;
 
-    private bool[] occupiedPositions;
-
+    private int maxPersonsForLevel;
+    private bool[] isPositionOccupied;
+    private List<int> freeIndexes;
     //Timer fields
-    private float createPersonTime = 2;
+    
 
     public void Activate(int maxPersonsForLevel)
     {
         rnd = new System.Random();
         loadAllNamesFromTextFile(namesFilePath);
 
+        this.maxPersonsForLevel = maxPersonsForLevel;
+        isPositionOccupied = new bool[maxPersonsForLevel];
+        freeIndexes = new List<int>();
+        for(int i = 0; i < maxPersonsForLevel; i++)
+        {
+            freeIndexes.Add(i);
+        }
+
         for (int i = 0; i < INITIAL_PERSONS; i++)
         {
-            createPersonAtRandomLocation();
+            CreatePersonAtRandomLocation();
         }
-        occupiedPositions = new bool[maxPersonsForLevel];
 
-        InvokeRepeating("createPersonAtRandomLocation", createPersonTime, createPersonTime);
     }
 
     //TODO Cache the person locations so they don't end up stacked
-    private void createPersonAtRandomLocation()
+    public void CreatePersonAtRandomLocation()
     {
-        int nextX = rnd.Next(minX, maxX + 1);
-        int nextY = rnd.Next(minY, maxY + 1);
+        
+        int nextIndex = freeIndexes[rnd.Next(freeIndexes.Count)];
+
+        //TODO confirm this math...
+        int columns = maxX - minX + 1;
+        int rows = maxY - minY + 1;
+        int nextX = (nextIndex % columns) + minX;
+        int nextY = (nextIndex / rows) + minY ;
+        
         createPersonAtLocation(nextX, nextY);
     }
 
@@ -60,18 +75,15 @@ public class PersonGenerator : MonoBehaviour {
         GameObject newPersonGameObject = Instantiate(personPrefab, newPosition, Quaternion.identity);
         Person newPerson = newPersonGameObject.GetComponent<Person>();
 
-        int randomIndex = rnd.Next(MERANDA_NAMES_AMOUNT);
-
-        string newName = allNames[randomIndex];
+        string newName = allNames[rnd.Next(MERANDA_NAMES_AMOUNT)];
         Debug.Log("New Person: " + newName);
         newPersonGameObject.name = newName;
         newPerson.SetName(newName);
 
-        //gameController.AddPersonToWaitList(newPerson); //TODO this might be unnecessary now
-        int index = convertXYToIndex(x, y);
-        occupiedPositions[index] = true;
+        gameController.AddPersonToWaitList(newPerson);
     }
 
+    //TODO make this less hardcoded
     private int convertXYToIndex(int x, int y)
     {
         int columns = maxX - minX;
