@@ -19,13 +19,20 @@ public class GameController : MonoBehaviour {
     //Timer Fields
     private float createPersonTime = 2;
     private float changeRuleTime = 20; //TODO tweak this
-    
+
+    private void Awake()
+    {
+        Lineups = new List<Lineup>();
+        WaitingPersons = new List<Person>();
+
+        GlobalData.PlayerScore = 0;
+    }
+
 
     // Use this for initialization
     void Start () {
         Debug.Log(gameObject.tag);
-        Lineups = new List<Lineup>();
-        WaitingPersons = new List<Person>();
+        
         PersonGenerator.Activate(maxPersonsForLevel);
 
         for (int i = 0; i < INITIAL_PERSONS; i++)

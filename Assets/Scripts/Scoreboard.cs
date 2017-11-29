@@ -8,7 +8,7 @@ public class Scoreboard : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        Score = 0;
+        Score = GlobalData.PlayerScore;
 
         RectTransform scoreRect = ScoreText.GetComponent<RectTransform>();
         float scoreX = Screen.width * -0.4f;
@@ -19,11 +19,13 @@ public class Scoreboard : MonoBehaviour {
 	public void UpdateScore(int newScore)
     {
         Score = newScore;
+        GlobalData.PlayerScore = newScore;
         updateText();
     }
     public void IncreaseScore(int increment)
     {
         Score += increment;
+        GlobalData.PlayerScore++;
         updateText();
     }
 

@@ -25,6 +25,7 @@ public class LevelCompleteController : MonoBehaviour {
         ScoreRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height * 0.08f);
         ScoreRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width * 0.8f);
         ScoreRect.anchoredPosition = new Vector2(0, Screen.height * 0.2f);
+        ScoreText.text = "Score: " + GlobalData.PlayerScore;
 
         RectTransform RetryRect = RetryButton.GetComponent<RectTransform>();
         RetryRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonHeight);

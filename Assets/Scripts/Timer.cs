@@ -8,7 +8,6 @@ public class Timer : MonoBehaviour {
     public float timeLeftSeconds;
     private bool gameOver = false;
 
-	// Use this for initialization
 	void Start () {
         startTime = Time.time;
         timeLeftSeconds = 120; //TODO set value some other way
@@ -21,7 +20,6 @@ public class Timer : MonoBehaviour {
         Debug.Log("TIME WIDTH : " + timerX + " TIME HEIGHT : " + timerY);
     }
 	
-	// Update is called once per frame
 	void Update () {
         if (gameOver)
         {
