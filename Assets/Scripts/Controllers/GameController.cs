@@ -9,11 +9,12 @@ public class GameController : MonoBehaviour {
     public Scoreboard Scoreboard;
 
     Selectable currentlySelected;
-    public List<Person> PersonWaitList;
     public List<Lineup> Lineups;
+    public List<Person> WaitingPersons;
 
-    private int maxPersonsForLevel = 20; //TODO this seems to be a good MAX for hardest levels
+    private int maxPersonsForLevel = 25; //TODO this seems to be a good MAX for hardest levels
     private int totalWaitingPersons = 0;
+    const int INITIAL_PERSONS = 5; //Set this really big to test spacing
 
     //Timer Fields
     private float createPersonTime = 2;
@@ -23,9 +24,14 @@ public class GameController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Debug.Log(gameObject.tag);
-        PersonWaitList = new List<Person>();
         Lineups = new List<Lineup>();
-        PersonGenerator.Activate(maxPersonsForLevel);       
+        WaitingPersons = new List<Person>();
+        PersonGenerator.Activate(maxPersonsForLevel);
+
+        for (int i = 0; i < INITIAL_PERSONS; i++)
+        {
+            createNewPerson();
+        }
 
         int totalLineups = 3;
 
@@ -43,12 +49,19 @@ public class GameController : MonoBehaviour {
         InvokeRepeating("createNewPerson", createPersonTime, createPersonTime);
     }
 
+    //TODO might need a lock on this list?
+    private void addPersonToWaitingList(Person newPerson)
+    {
+        WaitingPersons.Add(newPerson);
+        totalWaitingPersons++;
+    }
+
     private void createNewPerson()
     {
         if(totalWaitingPersons < maxPersonsForLevel)
         {
-            PersonGenerator.CreatePersonAtRandomLocation();
-            totalWaitingPersons++;
+            Person newPerson = PersonGenerator.CreatePersonAtRandomLocation();
+            addPersonToWaitingList(newPerson);
         }
         else
         {
@@ -60,12 +73,6 @@ public class GameController : MonoBehaviour {
     private void handleTooManyPeople()
     {
         Debug.Log("TOO MANY PEOPLE! CANNOT GENERATE A NEW PERSON!");
-    }
-
-    public void AddPersonToWaitList(Person newPerson)
-    {
-        //TODO Might need a lock on this later
-        PersonWaitList.Add(newPerson);
     }
 
     public void AddLineupToLineups(Lineup lineup)
@@ -102,27 +109,38 @@ public class GameController : MonoBehaviour {
 
         if (newSelected.GetType() == typeof(Lineup) && currentlySelected.GetType() == typeof(Person))
         {
-            //TODO Remove Person from PersonGenerator cache
             Lineup selectedLineup = newSelected as Lineup;
             Person selectedPerson = currentlySelected as Person;
+
+            removePersonFromWaitingList(selectedPerson);
             bool assignedCorrectly = selectedLineup.AssignPerson(selectedPerson);
+
             if (assignedCorrectly){
                 if (Rule.NameMatchesRule(selectedPerson.name, selectedLineup.Rule))
                 {
                     //Correct, add points
                     Debug.Log("Rule MATCHED!");
-                    Scoreboard.IncreaseScore(1); //TODO different Persons will have different score values
+                    Scoreboard.IncreaseScore(1); 
+                    //TODO different Persons will have different score values
                 }
                 else
                 {
                     //Incorrect, no points
                     Debug.Log("Rule INCORRECT!");
+                    //TODO implement some sort of penalty
                 }
             }
         }
 
         currentlySelected.BecomeDeselected();
         currentlySelected = newSelected;
+    }
+
+    private void removePersonFromWaitingList(Person personToRemove)
+    {
+        PersonGenerator.FreeUpPosition(personToRemove.LocationIndex);
+        totalWaitingPersons--;
+        WaitingPersons.Remove(personToRemove);
     }
 
     private void updateLineupRules()

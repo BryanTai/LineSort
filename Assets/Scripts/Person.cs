@@ -3,6 +3,7 @@
 public class Person : Selectable {
 
     public string Name { get; private set; }
+    public int LocationIndex { get; set; }
     private SpriteRenderer personRenderer;
     private MeshRenderer textRenderer;
     private TextMesh textMesh;
