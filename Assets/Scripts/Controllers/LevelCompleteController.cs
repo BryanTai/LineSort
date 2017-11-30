@@ -38,5 +38,10 @@ public class LevelCompleteController : MonoBehaviour {
         MainRect.anchoredPosition = new Vector2(0, Screen.height * -0.25f); //divide by 2
 
     }
+
+    void setTrsansformToScreenResolution()
+    {
+        //TODO
+    }
 	
 }
