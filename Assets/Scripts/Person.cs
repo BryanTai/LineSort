@@ -15,8 +15,6 @@ public class Person : Selectable {
 
     void Awake()
     {
-        sprites = Resources.LoadAll<Sprite>("person_sheet");
-
         personRenderer = GetComponent<SpriteRenderer>();
 
         Transform childText = gameObject.transform.GetChild(0);

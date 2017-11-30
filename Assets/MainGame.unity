@@ -1722,8 +1722,8 @@ MonoBehaviour:
   PersonGenerator: {fileID: 2084112145}
   LineupGenerator: {fileID: 2084112146}
   Scoreboard: {fileID: 2084112144}
-  PersonWaitList: []
   Lineups: []
+  WaitingPersons: []
 --- !u!4 &2084112142
 Transform:
   m_ObjectHideFlags: 0
@@ -1775,7 +1775,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personPrefab: {fileID: 1872650833367636, guid: 0e4ed2005218c6d42849731c0ddbc033,
     type: 2}
-  gameController: {fileID: 2084112141}
 --- !u!114 &2084112146
 MonoBehaviour:
   m_ObjectHideFlags: 0

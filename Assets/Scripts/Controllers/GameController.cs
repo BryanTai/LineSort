@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour {
 
     private int maxPersonsForLevel = 25; //TODO this seems to be a good MAX for hardest levels
     private int totalWaitingPersons = 0;
-    const int INITIAL_PERSONS = 5; //Set this really big to test spacing
+    const int INITIAL_PERSONS = 20; //Set this really big to test spacing
 
     //Timer Fields
     private float createPersonTime = 2;

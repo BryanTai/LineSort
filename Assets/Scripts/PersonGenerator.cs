@@ -24,7 +24,22 @@ public class PersonGenerator : MonoBehaviour {
 
     private int maxPersonsForLevel;
     private List<int> freeIndexes;
-    
+
+    //Person Sprite fields
+    const string PERSON_SPRITE_FILE = "person_sheet_";
+    private Sprite[][] personSpriteSheets;
+    private int totalSpriteSheets = 4;
+
+
+    void Awake()
+    {
+        personSpriteSheets = new Sprite[totalSpriteSheets][];
+        for(int i = 0; i < totalSpriteSheets; i++)
+        {
+            string spriteName = PERSON_SPRITE_FILE + i;
+            personSpriteSheets[i] = Resources.LoadAll<Sprite>(spriteName);
+        }
+    }
 
     public void Activate(int maxPersonsForLevel)
     {
@@ -69,6 +84,9 @@ public class PersonGenerator : MonoBehaviour {
         newPersonGameObject.name = newName;
         newPerson.SetName(newName);
         newPerson.LocationIndex = nextIndex;
+
+        int randomSpriteIndex = rnd.Next(0, totalSpriteSheets);
+        newPerson.SetSprites(personSpriteSheets[randomSpriteIndex]);
 
         Debug.Log("New Person Generated!: " + newName);
         return newPerson;
