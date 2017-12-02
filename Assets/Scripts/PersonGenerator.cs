@@ -9,9 +9,11 @@ public class PersonGenerator : MonoBehaviour {
     public GameObject personPrefab;
 
     //Name fields
-    private string[] allNames;
+    const int MAX_NAME_LENGTH = 11;
+    private string[][] allNames;
+    private int[] allNameCounts;
     const int MERANDA_NAMES_AMOUNT = 5163;
-    private string namesFilePath = "merandaNamesSorted";
+    private string namesFilePath = "merandaNamesSortedLength";
     System.Random rnd;
 
     //New Person positioning
@@ -79,7 +81,10 @@ public class PersonGenerator : MonoBehaviour {
         GameObject newPersonGameObject = Instantiate(personPrefab, newPosition, Quaternion.identity);
         Person newPerson = newPersonGameObject.GetComponent<Person>();
 
-        string newName = allNames[rnd.Next(MERANDA_NAMES_AMOUNT)];
+        //TODO Pick a random length, depending on the level
+        int nameLength = 4;
+        int nameIndex = rnd.Next(allNameCounts[4]);
+        string newName = allNames[nameLength][nameIndex];
         
         newPersonGameObject.name = newName;
         newPerson.SetName(newName);
@@ -99,14 +104,16 @@ public class PersonGenerator : MonoBehaviour {
 
     private void loadAllNamesFromTextFile(string path)
     {
-        allNames = new string[MERANDA_NAMES_AMOUNT];
-        TextAsset allNamesAsset = Resources.Load<TextAsset>(path);
-        string[] linesFromFile = allNamesAsset.text.Split("\n"[0]);
+        allNames = new string[MAX_NAME_LENGTH][];
+        allNameCounts = new int[MAX_NAME_LENGTH];
 
-        int i = 0;
-        foreach (string line in linesFromFile) {
-            allNames[i] = line;
-            i++;
+        for (int length = 2; length < MAX_NAME_LENGTH; length++)
+        {
+            string filename = path + length;
+            TextAsset namesAsset = Resources.Load<TextAsset>(filename);
+            string[] linesFromFile = namesAsset.text.Split("\n"[0]);
+            allNames[length] = linesFromFile;
+            allNameCounts[length] = allNames[length].GetLength(0);
         }
     }
 }
