@@ -9,6 +9,7 @@ public class PersonGenerator : MonoBehaviour {
     public GameObject personPrefab;
 
     //Name fields
+    const int MIN_NAME_LENGTH = 3; //TODO Two letter names are rather annoying
     const int MAX_NAME_LENGTH = 11;
     private string[][] allNames;
     private int[] allNameCounts;
@@ -81,9 +82,9 @@ public class PersonGenerator : MonoBehaviour {
         GameObject newPersonGameObject = Instantiate(personPrefab, newPosition, Quaternion.identity);
         Person newPerson = newPersonGameObject.GetComponent<Person>();
 
-        //TODO Pick a random length, depending on the level
-        int nameLength = 4;
-        int nameIndex = rnd.Next(allNameCounts[4]);
+        int maxLength = GlobalData.MaxNameLength + 1;
+        int nameLength = rnd.Next(MIN_NAME_LENGTH, maxLength);
+        int nameIndex = rnd.Next(allNameCounts[nameLength]);
         string newName = allNames[nameLength][nameIndex];
         
         newPersonGameObject.name = newName;

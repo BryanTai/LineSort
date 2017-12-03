@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour {
 
 	void Start () {
         startTime = Time.time;
-        timeLeftSeconds = 120; //TODO set value some other way
+        timeLeftSeconds = 60; //TODO set value some other way
 
         RectTransform timerRect = TimerText.GetComponent<RectTransform>();
         float timerX = 0;//Screen.width * -0.4f;
@@ -44,7 +44,8 @@ public class Timer : MonoBehaviour {
             //TODO signal the GameController....or incorperate this code into GameController
             //... or just leave it be?
             gameOver = true;
-
+            GlobalData.CurrentLevel++;
+            GlobalData.MaxNameLength++;
             UnityEngine.SceneManagement.SceneManager.LoadScene("LevelComplete");
         }
     }

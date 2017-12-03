@@ -47,7 +47,7 @@ public class RuleGenerator {
 
     private int pickAmount()
     {
-        return rnd.Next(1,8); //TODO REALLY need to tweak this
+        return rnd.Next(1,5); //TODO REALLY need to tweak this
     }
 
     private string pickOneLetter()

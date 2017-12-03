@@ -13,5 +13,7 @@ public class GlobalData : MonoBehaviour{
     void Awake()
     {
         DontDestroyOnLoad(transform.gameObject);
+        CurrentLevel = 1;
+        MaxNameLength = 5;
     }
 }
