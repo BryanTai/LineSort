@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StartMenuController : MonoBehaviour {
+public class StartMenuController : LandingScreen {
 
     public Button StartGameButton;
     public Button OptionsButton;
@@ -13,15 +13,9 @@ public class StartMenuController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         SaveAndExitOptionsMenu();
-        float buttonHeight = Screen.height * 0.1f;
-        float buttonWidth = Screen.width * 0.5f;
-        StartGameButton.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonHeight);
-        StartGameButton.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonWidth);
 
-        OptionsButton.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonHeight);
-        OptionsButton.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonWidth);
-
-        //TODO set Options Menu image size to scale screen resolution
+        ScaleAndPositionRectTransform(StartGameButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, 0);
+        ScaleAndPositionRectTransform(OptionsButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, -0.2f);
     }
 
     public void NoSaveAndExitOptionsMenu()
