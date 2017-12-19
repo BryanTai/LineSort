@@ -129,5 +129,9 @@ public class Lineup : Selectable {
         toReturn.y = transform.position.y + yOffset;
         return toReturn;
     }
-
+    
+    internal void SetRuleColor(Color newColor)
+    {
+        textMesh.color = newColor;
+    }
 }

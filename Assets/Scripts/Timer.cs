@@ -5,14 +5,14 @@ public class Timer : MonoBehaviour {
     public Text TimerText;
 
     private float startTime;
-    public float timeLeftSeconds;
+    public float timeLeftSeconds { get; set; }
     private bool gameOver = false;
     private const int FLASHING_TIME = 10;
     private bool timerIsStillWhite = true;
 
 	void Start () {
         startTime = Time.time;
-        timeLeftSeconds = 30; //TODO set value some other way
+        timeLeftSeconds = GlobalData.TimerSeconds;
 
         RectTransform timerRect = TimerText.GetComponent<RectTransform>();
         float timerX = 0;//Screen.width * -0.4f;

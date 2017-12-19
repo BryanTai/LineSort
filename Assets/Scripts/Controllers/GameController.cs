@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -17,8 +18,11 @@ public class GameController : MonoBehaviour {
     const int INITIAL_PERSONS = 5; //Set this really big to test spacing
 
     //Timer Fields
-    private float createPersonTime = 2;
-    private float changeRuleTime = 20; //TODO tweak this
+    private float createPersonRate = 2;
+    private float changeRuleRate = 10; //TODO tweak this
+    private float changeRuleWarningTime = 3;
+
+    private bool gameIsRunning = true;
 
     private void Awake()
     {
@@ -52,8 +56,9 @@ public class GameController : MonoBehaviour {
         LineupGenerator.Activate(initialRules);
 
         Scoreboard.UpdateScore(0);
-        InvokeRepeating("updateLineupRules", changeRuleTime, changeRuleTime);
-        InvokeRepeating("createNewPerson", createPersonTime, createPersonTime);
+
+        StartCoroutine(UpdateLineupRulesAtIntervals(changeRuleRate, changeRuleWarningTime));
+        StartCoroutine(CreateNewPersonAtIntervals(createPersonRate));
     }
 
     //TODO might need a lock on this list?
@@ -61,6 +66,15 @@ public class GameController : MonoBehaviour {
     {
         WaitingPersons.Add(newPerson);
         totalWaitingPersons++;
+    }
+
+    IEnumerator CreateNewPersonAtIntervals(float createPersonDelay)
+    {
+        while (gameIsRunning)
+        {
+            yield return new WaitForSeconds(createPersonDelay);
+            createNewPerson();
+        }
     }
 
     private void createNewPerson()
@@ -76,7 +90,7 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    //TODO
+    //TODO punishment?
     private void handleTooManyPeople()
     {
         Debug.Log("TOO MANY PEOPLE! CANNOT GENERATE A NEW PERSON!");
@@ -148,6 +162,34 @@ public class GameController : MonoBehaviour {
         PersonGenerator.FreeUpPosition(personToRemove.LocationIndex);
         totalWaitingPersons--;
         WaitingPersons.Remove(personToRemove);
+    }
+
+    IEnumerator UpdateLineupRulesAtIntervals(float changeRuleRate, float changeRuleWarningTime)
+    {
+        while (gameIsRunning)
+        {
+            yield return new WaitForSeconds(changeRuleRate - changeRuleWarningTime);
+            yield return StartCoroutine(FlashRulesText(changeRuleWarningTime));
+
+            updateLineupRules();
+        }
+    }
+
+    IEnumerator FlashRulesText(float flashTimeSeconds)
+    {
+        for(int i = 0; i < flashTimeSeconds; i++)
+        {
+            foreach (Lineup lineup in Lineups)
+            {
+                lineup.SetRuleColor(Color.red);
+            }
+            yield return new WaitForSeconds(0.5f);
+            foreach (Lineup lineup in Lineups)
+            {
+                lineup.SetRuleColor(Color.white);
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     private void updateLineupRules()

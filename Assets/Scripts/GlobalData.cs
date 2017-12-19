@@ -8,6 +8,7 @@ public class GlobalData : MonoBehaviour{
     public static int MaxPersons { get; set; }
     public static int MaxNameLength { get; set; }
     public static int PlayerScore { get; set; }
+    public static int TimerSeconds { get; set; }
 
 
     void Awake()
@@ -15,5 +16,6 @@ public class GlobalData : MonoBehaviour{
         DontDestroyOnLoad(transform.gameObject);
         CurrentLevel = 1;
         MaxNameLength = 5;
+        TimerSeconds = 60;
     }
 }
