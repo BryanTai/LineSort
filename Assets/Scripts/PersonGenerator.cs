@@ -94,7 +94,6 @@ public class PersonGenerator : MonoBehaviour {
         int randomSpriteIndex = rnd.Next(0, totalSpriteSheets);
         newPerson.SetSprites(personSpriteSheets[randomSpriteIndex]);
 
-        Debug.Log("New Person Generated!: " + newName);
         return newPerson;
     }
 

@@ -112,7 +112,7 @@ public class Lineup : Selectable {
         else
         {
             Vector2 lastSpotInLine = calculateLastSpot();
-            person.TeleportToPoint(lastSpotInLine);
+            person.PlaceInLine(lastSpotInLine);
             queuedPersons.Enqueue(person);
             return true;
         }

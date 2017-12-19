@@ -1,17 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+public enum PersonState { Waiting, InLine }
 public class Person : Selectable {
 
     public string Name { get; private set; }
     public int LocationIndex { get; set; }
+    public PersonState State {get; private set;}
     private SpriteRenderer personRenderer;
     private MeshRenderer textRenderer;
     private TextMesh textMesh;
 
     private Rigidbody2D personRigidBody;
-    private bool isWalking;
-    private float destinationX;
-    private float destinationY;
 
     void Awake()
     {
@@ -23,24 +23,13 @@ public class Person : Selectable {
 
         textRenderer.sortingLayerName = "Names";
         textRenderer.sortingOrder = 1;
-        isWalking = false;
+        State = PersonState.Waiting;
 
         personRigidBody = GetComponent<Rigidbody2D>();
 
         //TODO show all text for now
         //FIND THE OTHER ENABLED
         textRenderer.enabled = true;
-    }
-
-    void Update()
-    {
-        if (isWalking)
-        {
-            //TODO currently this just teleports, make it move smoothly
-            Vector2 destination = new Vector2(destinationX, destinationY);
-            personRigidBody.MovePosition(destination);
-            isWalking = false;
-        }
     }
 
     void OnMouseDown()
@@ -66,16 +55,15 @@ public class Person : Selectable {
         personRenderer.sortingOrder = 0;
     }
 
-    public void WalkToPoint(Vector2 point)
+    public void PlaceInLine(Vector2 linePosition)
     {
-        isWalking = true;
-        destinationX = point.x;
-        destinationY = point.y;
+        State = PersonState.InLine;
+        gameObject.layer = 2; //Ignore Raycast Layer
+        TeleportToPoint(linePosition);
     }
 
     public void TeleportToPoint(Vector2 point)
     {
-        isWalking = false;
         personRigidBody.MovePosition(point);
     }
 }
