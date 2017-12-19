@@ -7,10 +7,12 @@ public class Timer : MonoBehaviour {
     private float startTime;
     public float timeLeftSeconds;
     private bool gameOver = false;
+    private const int FLASHING_TIME = 10;
+    private bool timerIsStillWhite = true;
 
 	void Start () {
         startTime = Time.time;
-        timeLeftSeconds = 60; //TODO set value some other way
+        timeLeftSeconds = 30; //TODO set value some other way
 
         RectTransform timerRect = TimerText.GetComponent<RectTransform>();
         float timerX = 0;//Screen.width * -0.4f;
@@ -37,6 +39,12 @@ public class Timer : MonoBehaviour {
         }
 
         TimerText.text = minutes + ":" + seconds;
+
+        if(timerIsStillWhite && timeLeftSeconds <= FLASHING_TIME)
+        {
+            TimerText.color = Color.red;
+            timerIsStillWhite = false;
+        }
 
         if (timeLeftSeconds < 0)
         {
