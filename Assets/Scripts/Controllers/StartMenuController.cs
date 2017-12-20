@@ -5,17 +5,26 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class StartMenuController : LandingScreen {
-
+    //Start Menu objects
     public Button StartGameButton;
-    public Button OptionsButton;
+    public Button OptionsMenuButton;
+    //Options Menu objects
     public Image OptionsMenu;
+    public Button EndGameButton; //TODO just for testing
+    public Button SaveAndExitButton;
+    public Button CloseMenuButton;
 
-	// Use this for initialization
 	void Start () {
         SaveAndExitOptionsMenu();
 
         ScaleAndPositionRectTransform(StartGameButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, 0);
-        ScaleAndPositionRectTransform(OptionsButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, -0.2f);
+        ScaleAndPositionRectTransform(OptionsMenuButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, -0.2f);
+
+        ScaleAndPositionRectTransform(OptionsMenu.GetComponent<RectTransform>(), 1, 1, 0);
+        ScaleAndPositionRectTransform(SaveAndExitButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, -0.2f);
+        ScaleAndPositionRectTransform(EndGameButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, -0.4f);
+        ScaleAndPositionRectTransformForSquares(CloseMenuButton.GetComponent<RectTransform>(),0.1f, 0.4f, 0.4f);
+        //TODO FIX AFTER REFACTOR
     }
 
     public void NoSaveAndExitOptionsMenu()

@@ -16,6 +16,7 @@ public class GlobalData : MonoBehaviour{
         DontDestroyOnLoad(transform.gameObject);
         CurrentLevel = 1;
         MaxNameLength = 5;
+        PlayerScore = 0;
         TimerSeconds = 60;
     }
 }
