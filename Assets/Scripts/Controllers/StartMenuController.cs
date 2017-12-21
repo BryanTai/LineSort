@@ -10,21 +10,34 @@ public class StartMenuController : LandingScreen {
     public Button OptionsMenuButton;
     //Options Menu objects
     public Image OptionsMenu;
+    public Text OptionsText;
     public Button EndGameButton; //TODO just for testing
     public Button SaveAndExitButton;
     public Button CloseMenuButton;
+    public Text TimerSecondsText;
+    public InputField TimerSecondsInput;
+    public Text CreatePersonText;
+    public InputField CreatePersonInput;
 
-	void Start () {
-        SaveAndExitOptionsMenu();
+    void Start () {
+        NoSaveAndExitOptionsMenu();
 
         ScaleAndPositionRectTransform(StartGameButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, 0);
         ScaleAndPositionRectTransform(OptionsMenuButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, -0.2f);
 
         ScaleAndPositionRectTransform(OptionsMenu.GetComponent<RectTransform>(), 1, 1, 0);
-        ScaleAndPositionRectTransform(SaveAndExitButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, -0.2f);
+        ScaleAndPositionRectTransform(OptionsText.GetComponent<RectTransform>(), 0.1f, 0.75f, 0.4f);
+        ScaleAndPositionRectTransform(SaveAndExitButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, -0.3f);
         ScaleAndPositionRectTransform(EndGameButton.GetComponent<RectTransform>(), buttonHeightScale, buttonWidthScale, -0.4f);
         ScaleAndPositionRectTransformForSquares(CloseMenuButton.GetComponent<RectTransform>(),0.1f, 0.4f, 0.4f);
-        //TODO FIX AFTER REFACTOR
+
+        ScaleAndPositionRectTransform(TimerSecondsText.GetComponent<RectTransform>(), 0.05f, 0.5f, 0.25f);
+        ScaleAndPositionRectTransform(TimerSecondsInput.GetComponent<RectTransform>(), 0.05f, 0.15f, 0.2f);
+        TimerSecondsInput.text = GlobalData.TimerSeconds.ToString();
+
+        ScaleAndPositionRectTransform(CreatePersonText.GetComponent<RectTransform>(), 0.05f, 0.5f, 0.15f);
+        ScaleAndPositionRectTransform(CreatePersonInput.GetComponent<RectTransform>(), 0.05f, 0.15f, 0.1f);
+        CreatePersonInput.text = GlobalData.CreatePersonRate.ToString();
     }
 
     public void NoSaveAndExitOptionsMenu()
@@ -32,15 +45,22 @@ public class StartMenuController : LandingScreen {
         OptionsMenu.gameObject.SetActive(false);
     }
 
-    //TODO Cache temporary changes in this controller object and then pass them to the Global object when save is hit
     public void SaveAndExitOptionsMenu()
     {
+        updateGlobalData();
         OptionsMenu.gameObject.SetActive(false);
+        Debug.Log("Changes SAVED!");
     }
 
     public void OpenOptionsMenu()
     {
         OptionsMenu.gameObject.SetActive(true);
+    }
+
+    private void updateGlobalData()
+    {
+        GlobalData.TimerSeconds = int.Parse(TimerSecondsInput.text);
+        GlobalData.CreatePersonRate = int.Parse(CreatePersonInput.text);
     }
 
 }

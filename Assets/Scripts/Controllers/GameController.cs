@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,12 +14,12 @@ public class GameController : MonoBehaviour {
     public List<Lineup> Lineups;
     public List<Person> WaitingPersons;
 
-    private int maxPersonsForLevel = 25; //TODO this seems to be a good MAX for hardest levels
+    private int maxPersonsForLevel; 
     private int totalWaitingPersons = 0;
     const int INITIAL_PERSONS = 5; //Set this really big to test spacing
 
     //Timer Fields
-    private float createPersonRate = 2;
+    private float createPersonRate;
     private float changeRuleRate = 10; //TODO tweak this
     private float changeRuleWarningTime = 3;
 
@@ -29,7 +30,15 @@ public class GameController : MonoBehaviour {
         Lineups = new List<Lineup>();
         WaitingPersons = new List<Person>();
 
+        readGlobalData();
+
         GlobalData.PlayerScore = 0;
+    }
+
+    private void readGlobalData()
+    {
+        createPersonRate = GlobalData.CreatePersonRate;
+        maxPersonsForLevel = GlobalData.MaxPersons;
     }
 
 
