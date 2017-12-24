@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,8 @@ public class Lineup : Selectable {
     private const float PERSON_Y_OFFSET = 1f;
     private float timeToProcessPerson = 3; //TODO tweak this
 
-    private TextMesh textMesh;
+    public NotificationText NotificationText;
+    public TextMesh RuleText;
 
     public Rule Rule { get; private set; }
 
@@ -24,9 +26,10 @@ public class Lineup : Selectable {
         queuedPersons = new Queue<Person>();
 
         Transform childText = gameObject.transform.GetChild(0);
-        textMesh = childText.GetComponent<TextMesh>();
         //TODO for testing
-        textMesh.text = "PLACEHOLDER_RULE";
+        RuleText.text = "PLACEHOLDER_RULE";
+        NotificationText.SetText("PLACEHOLDER_NOTIFICATION");
+        
         MaxPersons = 3;
     }
     //Lineup Logic
@@ -76,22 +79,27 @@ public class Lineup : Selectable {
         fillTextField(rule.ToString());
     }
 
+    void FlashNotification()
+    {
+        StartCoroutine(NotificationText.DisplayNotification());
+    }
+
     private void fillTextField(string newText)
     {
         float rowLimit = 1.0f; //TODO TEST THIS
         string[] words = newText.Split(' ');
         string temp;
-        textMesh.text = "";
-        MeshRenderer textRenderer = textMesh.GetComponent<MeshRenderer>();
+        RuleText.text = "";
+        MeshRenderer textRenderer = RuleText.GetComponent<MeshRenderer>();
         for (int i = 0; i < words.Length; i++)
         {
-            temp = textMesh.text;
-            textMesh.text += words[i] + " ";
+            temp = RuleText.text;
+            RuleText.text += words[i] + " ";
             if (textRenderer.bounds.extents.x > rowLimit)
             {
                 temp += Environment.NewLine;
                 temp += words[i] + " ";
-                textMesh.text = temp;
+                RuleText.text = temp;
             }
         }
     }
@@ -114,6 +122,7 @@ public class Lineup : Selectable {
             Vector2 lastSpotInLine = calculateLastSpot();
             person.PlaceInLine(lastSpotInLine);
             queuedPersons.Enqueue(person);
+            FlashNotification(); //TODO Testing
             return true;
         }
     }
@@ -132,6 +141,6 @@ public class Lineup : Selectable {
     
     internal void SetRuleColor(Color newColor)
     {
-        textMesh.color = newColor;
+        RuleText.color = newColor;
     }
 }
