@@ -79,11 +79,6 @@ public class Lineup : Selectable {
         fillTextField(rule.ToString());
     }
 
-    void FlashNotification()
-    {
-        StartCoroutine(NotificationText.DisplayNotification());
-    }
-
     private void fillTextField(string newText)
     {
         float rowLimit = 1.0f; //TODO TEST THIS
@@ -115,6 +110,7 @@ public class Lineup : Selectable {
         {
             //Say that the LINE IS FULL!
             Debug.Log("LINE IS FULL!!!");
+            NotificationText.FlashNotification("FULL!", Color.red);
             return false;
         }
         else
@@ -122,7 +118,7 @@ public class Lineup : Selectable {
             Vector2 lastSpotInLine = calculateLastSpot();
             person.PlaceInLine(lastSpotInLine);
             queuedPersons.Enqueue(person);
-            FlashNotification(); //TODO Testing
+            NotificationText.FlashNotification("THANKS!",Color.white);
             return true;
         }
     }
