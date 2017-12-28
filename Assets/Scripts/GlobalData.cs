@@ -12,13 +12,14 @@ public class GlobalData : MonoBehaviour{
     public static int TimerSeconds { get; set; }
 
 
-    //TODO Going to Main Menu will re-call this function, essentially forgetting the changes from last time.
+    //TODO Going to Main Menu will re-call this function, 
+    // essentially forgetting the changes from last time.
     // Save data to file?
     void Awake()
     {
         DontDestroyOnLoad(transform.gameObject);
 
-        CreatePersonRate = 2;
+        CreatePersonRate = 4;
         CurrentLevel = 1;
         MaxNameLength = 5;
         MaxPersons = 25; //this seems to be a good MAX for hardest levels

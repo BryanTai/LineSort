@@ -19,6 +19,9 @@ public class Lineup : Selectable {
     private bool processingPerson = false;
     private float startTime = 0;
 
+    private string[] correctNotifications;
+    private int correctLength;
+    System.Random rnd;
 
     void Awake()
     {
@@ -26,12 +29,14 @@ public class Lineup : Selectable {
         queuedPersons = new Queue<Person>();
 
         Transform childText = gameObject.transform.GetChild(0);
-        //TODO for testing
         RuleText.text = "PLACEHOLDER_RULE";
         NotificationText.SetText("PLACEHOLDER_NOTIFICATION");
         
         MaxPersons = 3;
+        rnd = new System.Random();
     }
+
+    
     //Lineup Logic
     /**If the queue is empty, nothing to process
      * Else, queue has persons and...
@@ -40,7 +45,7 @@ public class Lineup : Selectable {
      * -- if timeToProcess has been reached, dequeue the person and stop processing.
      * -- else, let the timer keep going
      * 
-    **/ 
+    **/
 
     void Update()
     {
@@ -77,6 +82,12 @@ public class Lineup : Selectable {
     {
         this.Rule = rule;
         fillTextField(rule.ToString());
+    }
+
+    public void SetCorrectNotifications(string[] corrects, int maxLength)
+    {
+        correctNotifications = corrects;
+        correctLength = maxLength;
     }
 
     private void fillTextField(string newText)
@@ -118,9 +129,14 @@ public class Lineup : Selectable {
             Vector2 lastSpotInLine = calculateLastSpot();
             person.PlaceInLine(lastSpotInLine);
             queuedPersons.Enqueue(person);
-            NotificationText.FlashNotification("THANKS!",Color.white);
+            NotificationText.FlashNotification(getRandomCorrectNotification(),Color.green);
             return true;
         }
+    }
+
+    private string getRandomCorrectNotification()
+    {
+        return correctNotifications[rnd.Next(correctLength)];
     }
 
     private Vector2 calculateLastSpot()
