@@ -34,10 +34,8 @@ public class Person : Selectable {
 
     void OnMouseDown()
     {
-        //Debug.Log("Clicked Person: " + Name);
         becomeSelected();
         //TODO Make the name text BIGGER
-        //textRenderer.enabled = true;
         personRenderer.sortingOrder = 2; //Move it to the front
     }
 
@@ -51,7 +49,6 @@ public class Person : Selectable {
     {
         base.BecomeDeselected();
         //TODO make the name text back to Default size
-        //textRenderer.enabled = false;
         personRenderer.sortingOrder = 0;
     }
 
@@ -60,6 +57,7 @@ public class Person : Selectable {
         State = PersonState.InLine;
         gameObject.layer = 2; //Ignore Raycast Layer
         TeleportToPoint(linePosition);
+        textRenderer.enabled = false;
     }
 
     public void TeleportToPoint(Vector2 point)

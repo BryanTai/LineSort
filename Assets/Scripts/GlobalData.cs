@@ -19,7 +19,7 @@ public class GlobalData : MonoBehaviour{
     {
         DontDestroyOnLoad(transform.gameObject);
 
-        CreatePersonRate = 4;
+        CreatePersonRate = 3;
         CurrentLevel = 1;
         MaxNameLength = 5;
         MaxPersons = 25; //this seems to be a good MAX for hardest levels
