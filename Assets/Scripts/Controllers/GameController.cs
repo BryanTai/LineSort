@@ -25,12 +25,21 @@ public class GameController : MonoBehaviour {
 
     private bool gameIsRunning = true;
 
+    //Notification Fields
+    private const string CORRECT_PATH = "correctNotifications";
+    private const int CORRECT_LENGTH = 10;
+    private string[] correctNotifications;
+
+    System.Random rnd;
+
     private void Awake()
     {
+        rnd = new System.Random();
         Lineups = new List<Lineup>();
         WaitingPersons = new List<Person>();
 
         readGlobalData();
+        loadAllCorrectNotifications();
 
         GlobalData.PlayerScore = 0;
     }
@@ -40,7 +49,12 @@ public class GameController : MonoBehaviour {
         createPersonRate = GlobalData.CreatePersonRate;
         maxPersonsForLevel = GlobalData.MaxPersons;
     }
-
+    private void loadAllCorrectNotifications()
+    {
+        TextAsset correctAsset = Resources.Load<TextAsset>(CORRECT_PATH);
+        string[] linesFromFile = correctAsset.text.Split("\n"[0]);
+        correctNotifications = linesFromFile;
+    }
 
     // Use this for initialization
     void Start () {
@@ -143,20 +157,20 @@ public class GameController : MonoBehaviour {
             Person selectedPerson = currentlySelected as Person;
 
             removePersonFromWaitingList(selectedPerson);
-            bool assignedCorrectly = selectedLineup.AssignPerson(selectedPerson);
+            bool addedToLineup = selectedLineup.AssignPerson(selectedPerson);
 
-            if (assignedCorrectly){
+            if (addedToLineup){
                 if (Rule.NameMatchesRule(selectedPerson.name, selectedLineup.Rule))
                 {
-                    //Correct, add points
                     Debug.Log("Rule MATCHED!");
-                    Scoreboard.IncreaseScore(1); 
+                    Scoreboard.IncreaseScore(1);
+                    selectedLineup.FlashNotification(getRandomCorrectNotification(), Color.green);
                     //TODO different Persons will have different score values
                 }
                 else
                 {
-                    //Incorrect, no points
                     Debug.Log("Rule INCORRECT!");
+                    selectedLineup.FlashNotification("WRONG!", Color.red);
                     //TODO implement some sort of penalty
                 }
             }
@@ -208,4 +222,10 @@ public class GameController : MonoBehaviour {
             lineup.SetRule(ruleGenerator.GenerateNewRule());
         }
     }
+
+    private string getRandomCorrectNotification()
+    {
+        return correctNotifications[rnd.Next(CORRECT_LENGTH)];
+    }
+
 }

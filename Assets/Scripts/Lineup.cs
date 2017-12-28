@@ -19,10 +19,6 @@ public class Lineup : Selectable {
     private bool processingPerson = false;
     private float startTime = 0;
 
-    private string[] correctNotifications;
-    private int correctLength;
-    System.Random rnd;
-
     void Awake()
     {
         sprites = Resources.LoadAll<Sprite>("lineup_sheet");
@@ -33,7 +29,6 @@ public class Lineup : Selectable {
         NotificationText.SetText("PLACEHOLDER_NOTIFICATION");
         
         MaxPersons = 3;
-        rnd = new System.Random();
     }
 
     
@@ -84,12 +79,6 @@ public class Lineup : Selectable {
         fillTextField(rule.ToString());
     }
 
-    public void SetCorrectNotifications(string[] corrects, int maxLength)
-    {
-        correctNotifications = corrects;
-        correctLength = maxLength;
-    }
-
     private void fillTextField(string newText)
     {
         float rowLimit = 1.0f; //TODO TEST THIS
@@ -129,14 +118,8 @@ public class Lineup : Selectable {
             Vector2 lastSpotInLine = calculateLastSpot();
             person.PlaceInLine(lastSpotInLine);
             queuedPersons.Enqueue(person);
-            NotificationText.FlashNotification(getRandomCorrectNotification(),Color.green);
             return true;
         }
-    }
-
-    private string getRandomCorrectNotification()
-    {
-        return correctNotifications[rnd.Next(correctLength)];
     }
 
     private Vector2 calculateLastSpot()
@@ -154,5 +137,10 @@ public class Lineup : Selectable {
     internal void SetRuleColor(Color newColor)
     {
         RuleText.color = newColor;
+    }
+
+    public void FlashNotification(string notification, Color color)
+    {
+        NotificationText.FlashNotification(notification, color);
     }
 }

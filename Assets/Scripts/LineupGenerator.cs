@@ -9,15 +9,6 @@ public class LineupGenerator : MonoBehaviour {
 
     private Sprite[] sprites; //TODO Load Lineup sprites HERE to reduce Resource calls
 
-    private const string CORRECT_PATH = "correctNotifications";
-    private const int CORRECT_LENGTH = 10;
-    private string[] correctNotifications;
-
-    
-    void Awake()
-    {
-        loadAllCorrectNotifications();
-    }
 
     public void Activate(List<Rule> initialRules)
     {
@@ -35,16 +26,6 @@ public class LineupGenerator : MonoBehaviour {
         GameObject newLineupObject = Instantiate(lineupPrefab, newPosition, Quaternion.identity);
         Lineup newLineup = newLineupObject.GetComponent<Lineup>();
         newLineup.SetRule(rule);
-        newLineup.SetCorrectNotifications(correctNotifications, CORRECT_LENGTH);
         gameController.AddLineupToLineups(newLineup);
     }
-
-    private void loadAllCorrectNotifications()
-    {
-        //correctNotifications = new string[CORRECT_LENGTH];
-        TextAsset correctAsset = Resources.Load<TextAsset>(CORRECT_PATH);
-        string[] linesFromFile = correctAsset.text.Split("\n"[0]);
-        correctNotifications = linesFromFile;
-    }
-
 }
