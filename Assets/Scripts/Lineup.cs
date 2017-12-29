@@ -20,7 +20,6 @@ public class Lineup : Selectable {
 
     void Awake()
     {
-        sprites = Resources.LoadAll<Sprite>("lineup_sheet");
         queuedPersons = new Queue<Person>();
 
         Transform childText = gameObject.transform.GetChild(0);

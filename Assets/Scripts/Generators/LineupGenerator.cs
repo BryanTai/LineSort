@@ -7,8 +7,12 @@ public class LineupGenerator : MonoBehaviour {
     public GameController gameController;
     private const float Y_POS = 2.5f;
 
-    private Sprite[] sprites; //TODO Load Lineup sprites HERE to reduce Resource calls
+    private Sprite[] sprites;
 
+    void Awake()
+    {
+        sprites = Resources.LoadAll<Sprite>("lineup_sheet");
+    }
 
     public void Activate(List<Rule> initialRules)
     {
@@ -26,6 +30,7 @@ public class LineupGenerator : MonoBehaviour {
         GameObject newLineupObject = Instantiate(lineupPrefab, newPosition, Quaternion.identity);
         Lineup newLineup = newLineupObject.GetComponent<Lineup>();
         newLineup.SetRule(rule);
+        newLineup.SetSprites(sprites);
         gameController.AddLineupToLineups(newLineup);
     }
 }
