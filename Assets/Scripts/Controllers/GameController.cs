@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour {
     public LineupGenerator LineupGenerator;
     private RuleGenerator ruleGenerator;
     public Scoreboard Scoreboard;
+    public NotificationGenerator NotificationGenerator;
 
     Selectable currentlySelected;
     public List<Lineup> Lineups;
@@ -164,15 +165,19 @@ public class GameController : MonoBehaviour {
                 {
                     Debug.Log("Rule MATCHED!");
                     Scoreboard.IncreaseScore(1);
-                    selectedLineup.FlashNotification(getRandomCorrectNotification(), Color.green);
+                    NotificationGenerator.FlashNotification(getRandomCorrectNotification(), Color.green, selectedLineup.gameObject);
                     //TODO different Persons will have different score values
                 }
                 else
                 {
                     Debug.Log("Rule INCORRECT!");
-                    selectedLineup.FlashNotification("WRONG!", Color.red);
+                    NotificationGenerator.FlashNotification("WRONG!", Color.red, selectedLineup.gameObject);
                     //TODO implement some sort of penalty
                 }
+            }
+            else
+            {
+                NotificationGenerator.FlashNotification("FULL!", Color.red, selectedLineup.gameObject);
             }
         }
 

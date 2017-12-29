@@ -11,7 +11,6 @@ public class Lineup : Selectable {
     private const float PERSON_Y_OFFSET = 1f;
     private float timeToProcessPerson = 3; //TODO tweak this
 
-    public NotificationText NotificationText;
     public TextMesh RuleText;
 
     public Rule Rule { get; private set; }
@@ -26,7 +25,6 @@ public class Lineup : Selectable {
 
         Transform childText = gameObject.transform.GetChild(0);
         RuleText.text = "PLACEHOLDER_RULE";
-        NotificationText.SetText("PLACEHOLDER_NOTIFICATION");
         
         MaxPersons = 3;
     }
@@ -110,7 +108,6 @@ public class Lineup : Selectable {
         {
             //Say that the LINE IS FULL!
             Debug.Log("LINE IS FULL!!!");
-            NotificationText.FlashNotification("FULL!", Color.red);
             return false;
         }
         else
@@ -137,10 +134,5 @@ public class Lineup : Selectable {
     internal void SetRuleColor(Color newColor)
     {
         RuleText.color = newColor;
-    }
-
-    public void FlashNotification(string notification, Color color)
-    {
-        NotificationText.FlashNotification(notification, color);
     }
 }
