@@ -22,7 +22,7 @@ public class GlobalData : MonoBehaviour{
     {
         DontDestroyOnLoad(transform.gameObject);
 
-        ChangeRuleRate = 10;
+        ChangeRuleRate = 15;
         CreatePersonRate = 3;
         CurrentLevel = 1;
         MaxNameLength = 5;

@@ -9,13 +9,15 @@ public class PersonGenerator : MonoBehaviour {
     public GameObject personPrefab;
 
     //Name fields
-    const int MIN_NAME_LENGTH = 3; //TODO Two letter names are rather annoying
-    const int MAX_NAME_LENGTH = 11;
+    const int MIN_NAME_LENGTH = 3; //Might add the 2 letter names later
+    const int MAX_NAME_LENGTH = 11; //Note that text file 10 holds all names with 10+ length
     private string[][] allNames;
     private int[] allNameCounts;
     const int MERANDA_NAMES_AMOUNT = 5163;
     private string namesFilePath = "merandaNamesSortedLength";
-    System.Random rnd;
+    private int currentMaxNameLength;
+    private int currentMinNameLength;
+    private System.Random rnd;
 
     //New Person positioning
     private int minX = -2;
@@ -36,6 +38,9 @@ public class PersonGenerator : MonoBehaviour {
 
     void Awake()
     {
+        currentMaxNameLength = GlobalData.MaxNameLength;
+        currentMinNameLength = GlobalData.MinNameLength;
+
         personSpriteSheets = new Sprite[totalSpriteSheets][];
         for(int i = 0; i < totalSpriteSheets; i++)
         {
@@ -82,8 +87,7 @@ public class PersonGenerator : MonoBehaviour {
         GameObject newPersonGameObject = Instantiate(personPrefab, newPosition, Quaternion.identity);
         Person newPerson = newPersonGameObject.GetComponent<Person>();
 
-        int maxLength = GlobalData.MaxNameLength + 1;
-        int nameLength = rnd.Next(MIN_NAME_LENGTH, maxLength);
+        int nameLength = rnd.Next(currentMinNameLength, currentMaxNameLength + 1);
         int nameIndex = rnd.Next(allNameCounts[nameLength]);
         string newName = allNames[nameLength][nameIndex];
         
@@ -102,15 +106,18 @@ public class PersonGenerator : MonoBehaviour {
         freeIndexes.Add(index);
     }
 
+    //TODO MOVE THIS TO GLOBALDATA TO PREVENT REPEATED LOADS
+    //Note that allNames indexes smaller than MIN_NAME_LENGTH are empty
     private void loadAllNamesFromTextFile(string path)
     {
+
         allNames = new string[MAX_NAME_LENGTH][];
         allNameCounts = new int[MAX_NAME_LENGTH];
 
-        for (int length = 2; length < MAX_NAME_LENGTH; length++)
+        for (int length = MIN_NAME_LENGTH; length < MAX_NAME_LENGTH; length++)
         {
-            string filename = path + length;
-            TextAsset namesAsset = Resources.Load<TextAsset>(filename);
+            string fileName = path + length;
+            TextAsset namesAsset = Resources.Load<TextAsset>(fileName);
             string[] linesFromFile = namesAsset.text.Split("\n"[0]);
             allNames[length] = linesFromFile;
             allNameCounts[length] = allNames[length].GetLength(0);

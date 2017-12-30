@@ -52,9 +52,15 @@ public class Timer : MonoBehaviour {
             //TODO signal the GameController....or incorperate this code into GameController
             //... or just leave it be?
             gameOver = true;
-            GlobalData.CurrentLevel++;
-            GlobalData.MaxNameLength++;
+            updateGlobalData();
             UnityEngine.SceneManagement.SceneManager.LoadScene("LevelComplete");
         }
+    }
+
+    private void updateGlobalData()
+    {
+        GlobalData.CurrentLevel++;
+        GlobalData.MaxNameLength++;
+        GlobalData.MinNameLength++;
     }
 }
