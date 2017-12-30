@@ -9,7 +9,7 @@ public class Lineup : Selectable {
     private Queue<Person> queuedPersons;
 
     private const float PERSON_Y_OFFSET = 1f;
-    private float timeToProcessPerson = 3; //TODO tweak this
+    private float timeToProcessPerson;
 
     public TextMesh RuleText;
 
@@ -20,6 +20,7 @@ public class Lineup : Selectable {
 
     void Awake()
     {
+        timeToProcessPerson = GlobalData.TimeToProcessPerson;
         queuedPersons = new Queue<Person>();
 
         Transform childText = gameObject.transform.GetChild(0);

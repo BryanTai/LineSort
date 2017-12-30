@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour {
 
     //Timer Fields
     private float createPersonRate;
-    private float changeRuleRate = 10; //TODO tweak this
+    private float changeRuleRate;
     private float changeRuleWarningTime = 3;
 
     private bool gameIsRunning = true;
@@ -47,6 +47,7 @@ public class GameController : MonoBehaviour {
 
     private void readGlobalData()
     {
+        changeRuleRate = GlobalData.ChangeRuleRate;
         createPersonRate = GlobalData.CreatePersonRate;
         maxPersonsForLevel = GlobalData.MaxPersons;
     }
