@@ -87,6 +87,9 @@ public class PersonGenerator : MonoBehaviour {
         GameObject newPersonGameObject = Instantiate(personPrefab, newPosition, Quaternion.identity);
         Person newPerson = newPersonGameObject.GetComponent<Person>();
 
+        //TODO bug with Instantiate in Unity 2017.3.0f3, have to manually set the position :I
+        newPerson.gameObject.transform.position = newPosition;
+
         int nameLength = rnd.Next(currentMinNameLength, currentMaxNameLength + 1);
         int nameIndex = rnd.Next(allNameCounts[nameLength]);
         string newName = allNames[nameLength][nameIndex];
