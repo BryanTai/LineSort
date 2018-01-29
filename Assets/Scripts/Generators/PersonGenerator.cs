@@ -8,17 +8,6 @@ public class PersonGenerator : MonoBehaviour {
 
     public GameObject personPrefab;
 
-    //Name fields
-    const int MIN_NAME_LENGTH = 3; //Might add the 2 letter names later
-    const int MAX_NAME_LENGTH = 11; //Note that text file 10 holds all names with 10+ length
-    private string[][] allNames;
-    private int[] allNameCounts;
-    const int MERANDA_NAMES_AMOUNT = 5163;
-    private string namesFilePath = "merandaNamesSortedLength";
-    private int currentMaxNameLength;
-    private int currentMinNameLength;
-    private System.Random rnd;
-
     //New Person positioning
     private int minX = -2;
     private int maxX = 2;
@@ -35,11 +24,15 @@ public class PersonGenerator : MonoBehaviour {
     private Sprite[][] personSpriteSheets;
     private int totalSpriteSheets = 4;
 
+    private NameGenerator nameGenerator;
+    private System.Random rnd;
 
     void Awake()
     {
-        currentMaxNameLength = GlobalData.MaxNameLength;
-        currentMinNameLength = GlobalData.MinNameLength;
+        rnd = new System.Random();
+        nameGenerator = new NameGenerator();
+        columns = maxX - minX + 1;
+        //rows = maxY - minY + 1;
 
         personSpriteSheets = new Sprite[totalSpriteSheets][];
         for(int i = 0; i < totalSpriteSheets; i++)
@@ -51,12 +44,6 @@ public class PersonGenerator : MonoBehaviour {
 
     public void Activate(int maxPersonsForLevel)
     {
-        rnd = new System.Random();
-        loadAllNamesFromTextFile(namesFilePath);
-
-        columns = maxX - minX + 1;
-        //rows = maxY - minY + 1;
-
         this.maxPersonsForLevel = maxPersonsForLevel;
         freeIndexes = new List<int>();
         for(int i = 0; i < maxPersonsForLevel; i++)
@@ -90,10 +77,7 @@ public class PersonGenerator : MonoBehaviour {
         //TODO bug with Instantiate in Unity 2017.3.0f3, have to manually set the position :I
         newPerson.gameObject.transform.position = newPosition;
 
-        int nameLength = rnd.Next(currentMinNameLength, currentMaxNameLength + 1);
-        int nameIndex = rnd.Next(allNameCounts[nameLength]);
-        string newName = allNames[nameLength][nameIndex];
-        
+        string newName = nameGenerator.GetNewName();
         newPersonGameObject.name = newName;
         newPerson.SetName(newName);
         newPerson.LocationIndex = nextIndex;
@@ -107,23 +91,5 @@ public class PersonGenerator : MonoBehaviour {
     public void FreeUpPosition(int index)
     {
         freeIndexes.Add(index);
-    }
-
-    //TODO MOVE THIS TO GLOBALDATA TO PREVENT REPEATED LOADS
-    //Note that allNames indexes smaller than MIN_NAME_LENGTH are empty
-    private void loadAllNamesFromTextFile(string path)
-    {
-
-        allNames = new string[MAX_NAME_LENGTH][];
-        allNameCounts = new int[MAX_NAME_LENGTH];
-
-        for (int length = MIN_NAME_LENGTH; length < MAX_NAME_LENGTH; length++)
-        {
-            string fileName = path + length;
-            TextAsset namesAsset = Resources.Load<TextAsset>(fileName);
-            string[] linesFromFile = namesAsset.text.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-            allNames[length] = linesFromFile;
-            allNameCounts[length] = allNames[length].GetLength(0);
-        }
     }
 }
