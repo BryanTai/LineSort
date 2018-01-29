@@ -121,7 +121,7 @@ public class PersonGenerator : MonoBehaviour {
         {
             string fileName = path + length;
             TextAsset namesAsset = Resources.Load<TextAsset>(fileName);
-            string[] linesFromFile = namesAsset.text.Split("\n"[0]);
+            string[] linesFromFile = namesAsset.text.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             allNames[length] = linesFromFile;
             allNameCounts[length] = allNames[length].GetLength(0);
         }
