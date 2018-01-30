@@ -30,7 +30,7 @@ public class PersonGenerator : MonoBehaviour {
     void Awake()
     {
         rnd = new System.Random();
-        nameGenerator = new NameGenerator();
+        nameGenerator = new NameGenerator(GlobalData.MaxNameLength, GlobalData.MinNameLength);
         columns = maxX - minX + 1;
         //rows = maxY - minY + 1;
 

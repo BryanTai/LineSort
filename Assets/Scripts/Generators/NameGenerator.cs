@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class NameGenerator {
     //Name fields
-    const int MIN_NAME_LENGTH = 3; //Might add the 2 letter names later
-    const int MAX_NAME_LENGTH = 11; //Note that text file 10 holds all names with 10+ length
+    public const int MIN_NAME_LENGTH = 3; //Might add the 2 letter names later
+    public const int MAX_NAME_LENGTH = 11; //Note that text file 10 holds all names with 10+ length
     private string[][] allNames;
     private int[] allNameCounts;
     const int MERANDA_NAMES_AMOUNT = 5163;
@@ -13,10 +13,10 @@ public class NameGenerator {
     private int currentMinNameLength;
     private System.Random rnd;
     
-    public NameGenerator()
+    public NameGenerator(int maxNameLength, int minNameLength)
     {
-        currentMaxNameLength = GlobalData.MaxNameLength;
-        currentMinNameLength = GlobalData.MinNameLength;
+        currentMaxNameLength = maxNameLength;
+        currentMinNameLength = minNameLength;
 
         rnd = new System.Random();
         loadAllNamesFromTextFile(namesFilePath);
